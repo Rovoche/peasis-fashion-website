@@ -1,6 +1,0 @@
-{
-  "name": "PEASIS",
-  "description": "Lagos-based luxury fashion house specializing in handcrafted bespoke couture, made-to-order garments, and exclusive occasion wear.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
