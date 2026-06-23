@@ -9,14 +9,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
-    /* ─── Tokens (Deep Charcoal & Warm Ivory) ────────────── */
+    /* ─── Tokens (Quiet Luxury Palette) ──────────────────── */
     :root {
-      --ivory:   #FAF9F6;
-      --ink:     #0D0D0C;
-      --charcoal:#1A1A18;
-      --stone:   #8B8B88;
-      --gold:    #B38B4D;
-      --emerald: #1B4332;
+      --ivory:   #F9F8F6;
+      --ink:     #121211;
+      --stone:   #7A7A78;
+      --gold:    #A38048;
+      --emerald: #1B3B2B;
+      --surface: #F0EEE8;
       --serif:   'Cormorant Garamond', Georgia, serif;
       --sans:    'Jost', system-ui, sans-serif;
     }
@@ -30,9 +30,8 @@
       font-family: var(--sans);
       font-weight: 300;
       font-size: 16px;
-      line-height: 1.7;
+      line-height: 1.8;
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
     }
     img { display: block; width: 100%; height: auto; }
     a { color: inherit; text-decoration: none; }
@@ -40,493 +39,342 @@
     /* ─── Utility ────────────────────────────────────────── */
     .eyebrow {
       font-family: var(--sans);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 500;
-      letter-spacing: 0.3em;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
       color: var(--stone);
     }
-    .section-inner { max-width: 1440px; margin: 0 auto; padding: 0 4rem; }
-    @media (max-width: 768px) { .section-inner { padding: 0 1.5rem; } }
+    .wrapper { max-width: 1300px; margin: 0 auto; padding: 0 3rem; }
+    @media (max-width: 768px) { .wrapper { padding: 0 1.5rem; } }
 
     /* ─── Navigation ─────────────────────────────────────── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.5rem 4rem;
-      transition: all 0.4s ease;
-      background: transparent;
-      color: var(--ivory);
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 3rem;
+      background: rgba(249, 248, 246, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(18,18,17,0.05);
+      transition: all 0.3s ease;
     }
-    nav.scrolled { 
-      background: rgba(250, 249, 246, 0.95); 
-      backdrop-filter: blur(10px);
-      color: var(--ink);
-      padding: 1rem 4rem;
-      box-shadow: 0 1px 24px rgba(0,0,0,0.03); 
-    }
+    nav.scrolled { padding: 1rem 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
     @media (max-width: 768px) { nav, nav.scrolled { padding: 1rem 1.5rem; } }
 
-    .nav-logo-text {
-      font-family: var(--serif);
-      font-size: 1.5rem;
-      font-weight: 400;
-      letter-spacing: 0.2em;
-    }
-    
-    .nav-links { display: flex; gap: 3rem; list-style: none; }
-    .nav-links a {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      transition: opacity 0.3s;
-    }
-    .nav-links a:hover { opacity: 0.6; }
+    .nav-logo-text { font-family: var(--serif); font-size: 1.4rem; letter-spacing: 0.2em; font-weight: 500; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500; transition: color 0.3s; color: var(--stone); }
+    .nav-links a:hover { color: var(--ink); }
 
-    /* Hamburger */
-    .nav-toggle {
-      display: none;
-      flex-direction: column;
-      gap: 6px;
-      cursor: pointer;
-      z-index: 101;
-    }
-    .nav-toggle span {
-      display: block; width: 24px; height: 1px;
-      background: currentColor;
+    .nav-cta {
+      font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500;
+      padding: 0.6rem 1.2rem; border: 1px solid var(--emerald); color: var(--emerald);
       transition: all 0.3s;
     }
-    .nav-toggle.open span { background: var(--ink); }
-    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .nav-toggle.open span:nth-child(2) { opacity: 0; }
-    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-cta:hover { background: var(--emerald); color: var(--ivory); }
 
-    .mobile-menu {
-      position: fixed; inset: 0;
-      background: var(--ivory);
-      color: var(--ink);
-      z-index: 99;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 3rem;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.4s ease;
-    }
-    .mobile-menu.open { opacity: 1; pointer-events: all; }
-    .mobile-menu a {
-      font-family: var(--serif);
-      font-size: 2.5rem;
-      font-style: italic;
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; border: none; background: transparent; }
+    .nav-toggle span { display: block; width: 22px; height: 1px; background: var(--ink); transition: 0.3s; }
+
+    @media (max-width: 900px) {
+      .nav-links, .nav-cta { display: none; }
+      .nav-toggle { display: flex; }
     }
 
-    /* ─── Hero Cinematic ─────────────────────────────────── */
+    /* ─── Hero Split ─────────────────────────────────────── */
     .hero {
-      position: relative;
-      height: 100svh;
-      display: flex;
-      align-items: flex-end;
-      color: var(--ivory);
-      overflow: hidden;
-    }
-    .hero-bg {
-      position: absolute; inset: 0; z-index: -2;
-    }
-    .hero-bg img {
-      width: 100%; height: 100%; object-fit: cover;
-      filter: brightness(0.65) contrast(1.1);
-      transform: scale(1.05);
-      animation: slowZoom 20s ease-out infinite alternate;
-    }
-    @keyframes slowZoom { from { transform: scale(1.05); } to { transform: scale(1.1); } }
-    
-    .hero-overlay {
-      position: absolute; inset: 0; z-index: -1;
-      background: linear-gradient(to top, rgba(13,13,12,0.8) 0%, rgba(13,13,12,0) 50%);
-    }
-
-    .hero-content {
-      padding: 6rem 4rem;
-      width: 100%;
-      max-width: 1440px;
-      margin: 0 auto;
-    }
-    .hero-headline {
-      font-family: var(--serif);
-      font-size: clamp(3.5rem, 8vw, 7rem);
-      font-weight: 300;
-      line-height: 0.95;
-      letter-spacing: -0.02em;
-      margin: 1.5rem 0 2rem;
-    }
-    .hero-headline em { font-style: italic; color: var(--gold); }
-    .hero-sub {
-      font-size: 16px;
-      max-width: 40ch;
-      line-height: 1.6;
-      opacity: 0.8;
-    }
-
-    /* ─── Maison / Story ─────────────────────────────────── */
-    .maison {
-      background: var(--ivory);
-      padding: 10rem 0;
-    }
-    .maison-inner {
+      min-height: 100svh;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8rem;
-      align-items: center;
+      padding-top: 80px;
     }
-    .maison-img {
-      position: relative;
-      aspect-ratio: 4/5;
-      overflow: hidden;
+    .hero-text {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 4rem; max-width: 600px;
     }
-    .maison-text h2 {
-      font-family: var(--serif);
-      font-size: clamp(2.5rem, 4vw, 4rem);
-      font-weight: 300;
-      line-height: 1.1;
-      margin-bottom: 2.5rem;
+    .hero-text h1 {
+      font-family: var(--serif); font-size: clamp(3rem, 5vw, 5rem);
+      font-weight: 300; line-height: 1.1; margin: 1.5rem 0;
     }
-    .maison-text p {
-      color: var(--charcoal);
-      font-size: 16px;
-      line-height: 1.9;
-      margin-bottom: 1.5rem;
-      max-width: 45ch;
-    }
-    .signature-line {
-      width: 60px; height: 1px; background: var(--gold); margin: 3rem 0;
-    }
+    .hero-text h1 em { font-style: italic; color: var(--gold); }
+    .hero-text p { font-size: 15px; color: var(--stone); margin-bottom: 2.5rem; }
 
-    /* ─── Atelier in Motion (YouTube Shorts) ─────────────── */
-    .shorts-section {
-      background: var(--ink);
-      color: var(--ivory);
-      padding: 8rem 0;
-    }
-    .shorts-header {
-      text-align: center;
-      margin-bottom: 5rem;
-    }
-    .shorts-header h2 {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 3.5vw, 3.5rem);
-      font-weight: 300;
-      font-style: italic;
-      margin-bottom: 1rem;
-    }
-    .shorts-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
-    }
-    .short-wrapper {
-      position: relative;
-      width: 100%;
-      padding-top: 177.77%; /* 16:9 inverted for vertical video */
-      background: var(--charcoal);
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      transition: transform 0.4s ease;
-    }
-    .short-wrapper:hover {
-      transform: translateY(-10px);
-    }
-    .short-wrapper iframe {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      border: none;
-    }
-    @media (max-width: 1024px) { .shorts-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 600px) { 
-      .shorts-grid { 
-        display: flex; 
-        overflow-x: auto; 
-        scroll-snap-type: x mandatory; 
-        padding-bottom: 2rem;
-        gap: 1rem;
-      }
-      .short-wrapper {
-        flex: 0 0 80%;
-        scroll-snap-align: center;
-      }
-    }
-
-    /* ─── Editorial Collections Grid ─────────────────────── */
-    .collections { padding: 10rem 0; }
-    .collections-header {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      margin-bottom: 6rem;
-      border-bottom: 1px solid rgba(13,13,12,0.1);
-      padding-bottom: 2rem;
-    }
-    .collections-header h2 {
-      font-family: var(--serif);
-      font-size: clamp(3rem, 5vw, 4.5rem);
-      font-weight: 300;
-    }
-
-    .editorial-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 2rem;
-      margin-bottom: 4rem;
-    }
-    .ed-item {
-      position: relative;
-      overflow: hidden;
-      background: #EBE8E1;
-      group: inherit;
-    }
-    .ed-item img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94);
-    }
-    .ed-item:hover img { transform: scale(1.05); }
-    
-    .ed-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(13,13,12,0.6) 0%, transparent 40%);
-      opacity: 0; transition: opacity 0.4s;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 2rem; color: var(--ivory);
-    }
-    .ed-item:hover .ed-overlay { opacity: 1; }
-    .ed-overlay h3 { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; }
-    .ed-overlay span { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
-
-    /* Masonry-like placements */
-    .ed-large { grid-column: span 7; aspect-ratio: 3/4; }
-    .ed-tall { grid-column: span 5; aspect-ratio: 2/3; }
-    .ed-square { grid-column: span 4; aspect-ratio: 1/1; }
-    .ed-wide { grid-column: span 8; aspect-ratio: 16/9; }
+    .hero-image { position: relative; background: var(--surface); }
+    .hero-image img { width: 100%; height: 100%; object-fit: cover; }
     
     @media (max-width: 900px) {
-      .editorial-grid { display: flex; flex-direction: column; }
-      .ed-item { aspect-ratio: 3/4 !important; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-text { padding: 4rem 1.5rem; text-align: center; margin: 0 auto; }
+      .hero-image { height: 70vh; }
     }
 
-    /* ─── Contact / Footer ───────────────────────────────── */
-    .contact {
-      background: var(--ink);
-      color: var(--ivory);
-      padding: 8rem 0;
-      text-align: center;
-    }
-    .contact h2 {
-      font-family: var(--serif);
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
-      font-weight: 300;
-      font-style: italic;
-      margin-bottom: 2rem;
-    }
-    .contact-cta {
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 1rem 3rem;
-      background: var(--ivory); color: var(--ink);
-      font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
-      transition: background 0.3s, color 0.3s;
-    }
-    .contact-cta:hover { background: var(--gold); color: var(--ivory); }
+    /* ─── Story Section ──────────────────────────────────── */
+    .story { padding: 8rem 0; background: var(--ink); color: var(--ivory); text-align: center; }
+    .story h2 { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; margin-bottom: 2rem; }
+    .story p { font-size: 16px; color: rgba(249,248,246,0.7); max-width: 60ch; margin: 0 auto 1.5rem; line-height: 1.9; }
 
-    footer {
-      background: var(--ink);
-      color: rgba(250,249,246,0.5);
-      padding: 3rem 4rem;
-      display: flex; justify-content: space-between;
-      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
-      border-top: 1px solid rgba(250,249,246,0.1);
+    /* ─── Shorts / Video Section ─────────────────────────── */
+    .shorts { padding: 8rem 0; background: var(--surface); }
+    .shorts-header { text-align: center; margin-bottom: 4rem; }
+    .shorts-header h2 { font-family: var(--serif); font-size: 2.5rem; font-weight: 300; margin: 0.5rem 0; }
+    
+    .shorts-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+    }
+    .short-card {
+      position: relative; padding-top: 177.77%; /* 16:9 aspect ratio */
+      border-radius: 4px; overflow: hidden; background: var(--ink);
+    }
+    .short-card iframe {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
+    }
+    @media (max-width: 1024px) { .shorts-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) {
+      .shorts-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 1rem; }
+      .short-card { flex: 0 0 85%; scroll-snap-align: center; }
     }
 
-    /* ─── Scroll Reveal ──────────────────────────────────── */
-    .reveal {
-      opacity: 0; transform: translateY(30px);
-      transition: all 0.9s cubic-bezier(0.25,0.46,0.45,0.94);
+    /* ─── Collections Gallery ────────────────────────────── */
+    .gallery { padding: 8rem 0; }
+    .gallery-header { margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: flex-end; }
+    .gallery-header h2 { font-family: var(--serif); font-size: 3rem; font-weight: 300; }
+    
+    .category { margin-bottom: 6rem; }
+    .cat-title { font-family: var(--serif); font-size: 1.8rem; border-bottom: 1px solid var(--surface); padding-bottom: 1rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .cat-price { font-size: 12px; font-family: var(--sans); color: var(--stone); letter-spacing: 0.05em; }
+    
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+    @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; } }
+    @media (max-width: 500px) { .grid { grid-template-columns: 1fr; } }
+
+    /* Gallery Frame Styling */
+    .frame {
+      display: flex; flex-direction: column; gap: 1rem;
     }
-    .reveal.visible { opacity: 1; transform: none; }
+    .frame-img {
+      background: var(--surface);
+      aspect-ratio: 3/4; /* Forces uniformity across all images */
+      overflow: hidden;
+      position: relative;
+    }
+    .frame-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .frame:hover .frame-img img { transform: scale(1.03); }
+    
+    .frame-info { text-align: center; }
+    .frame-name { font-family: var(--serif); font-size: 1.2rem; color: var(--ink); }
+    .frame-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold); margin-top: 0.2rem; }
+
+    /* ─── Footer / Contact ───────────────────────────────── */
+    .footer { background: var(--emerald); color: var(--ivory); padding: 6rem 0 3rem; text-align: center; }
+    .footer h2 { font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; font-style: italic; margin-bottom: 2rem; }
+    .footer-cta {
+      display: inline-block; padding: 1rem 3rem; background: var(--ivory); color: var(--emerald);
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 500;
+      margin-bottom: 4rem; transition: opacity 0.3s;
+    }
+    .footer-cta:hover { opacity: 0.9; }
+    
+    .footer-bottom { border-top: 1px solid rgba(249,248,246,0.1); padding-top: 2rem; display: flex; justify-content: space-between; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(249,248,246,0.6); }
+
+    /* Scroll animations */
+    .fade-up { opacity: 0; transform: translateY(20px); transition: 0.8s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
   </style>
 </head>
 <body>
 
-<nav id="main-nav">
-  <a href="#" class="nav-logo-text">PEASIS</a>
+<nav id="navbar">
+  <div class="nav-logo-text">PEASIS</div>
   <ul class="nav-links">
-    <li><a href="#maison">The Maison</a></li>
-    <li><a href="#process">Process</a></li>
+    <li><a href="#story">The Maison</a></li>
+    <li><a href="#process">Atelier in Motion</a></li>
     <li><a href="#collections">Collections</a></li>
   </ul>
-  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
-    <span></span><span></span><span></span>
-  </button>
+  <a href="https://wa.me/2348060495986" class="nav-cta" target="_blank">Book Consultation</a>
+  <button class="nav-toggle"><span></span><span></span><span></span></button>
 </nav>
 
-<div class="mobile-menu" id="mobile-menu">
-  <a href="#maison">The Maison</a>
-  <a href="#process">Process</a>
-  <a href="#collections">Collections</a>
-  <a href="https://wa.me/2348060495986" style="font-size: 1rem; font-family: var(--sans); text-transform: uppercase; letter-spacing: 0.2em; border-bottom: 1px solid var(--ink); padding-bottom: 5px; margin-top: 2rem;">Book Consultation</a>
-</div>
-
-<!-- HERO -->
 <section class="hero">
-  <div class="hero-bg">
-    <!-- Beautiful cinematic placeholder. Swap back to your emerald dress when ready -->
-    <img src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&q=80&w=2000" alt="Bespoke Fashion" />
+  <div class="hero-text fade-up">
+    <span class="eyebrow">Lagos Atelier</span>
+    <h1>Thirty years of hands behind <em>every piece.</em></h1>
+    <p>Bespoke fashion built on a singular conviction: that the quality of a garment speaks before any description of it can.</p>
+    <div>
+      <a href="#collections" class="nav-cta" style="background: var(--ink); color: var(--ivory); border-color: var(--ink);">View Lookbook</a>
+    </div>
   </div>
-  <div class="hero-overlay"></div>
-  <div class="hero-content reveal">
-    <p class="eyebrow" style="color: rgba(250,249,246,0.7)">Lagos Atelier</p>
-    <h1 class="hero-headline">Thirty years of hands<br>behind <em>every piece.</em></h1>
-    <p class="hero-sub">Bespoke luxury built on family heritage and a singular conviction: quality speaks before description.</p>
+  <div class="hero-image fade-up">
+    <!-- Restored precise image path -->
+    <img src="./public/images/emerald-green-beaded-illusion-gown-1.jpg" alt="Emerald Green Beaded Illusion Gown" onerror="this.style.opacity='0'">
   </div>
 </section>
 
-<!-- MAISON -->
-<section class="maison" id="maison">
-  <div class="section-inner maison-inner">
-    <div class="maison-text reveal">
-      <p class="eyebrow">Heritage & Craft</p>
-      <h2>Craft before <em>claim.</em></h2>
-      <p>PEASIS is a fashion house built on decades of discipline. The hands behind this atelier have cut, draped, and constructed for over thirty years—developing an eye for fit, fabric, and finish that cannot be approximated.</p>
-      <p>Every commission is handled with the patience the work demands. Built into something that will not look like anything else in the room. Poise. Color. Drama. We style your image to make you stun.</p>
-      <div class="signature-line"></div>
-    </div>
-    <div class="maison-img reveal">
-      <img src="https://images.unsplash.com/photo-1584288079815-512c12579b29?auto=format&fit=crop&q=80&w=1200" alt="Tailoring Process" />
-    </div>
+<section class="story" id="story">
+  <div class="wrapper fade-up">
+    <span class="eyebrow" style="color: var(--gold); margin-bottom: 1rem; display: block;">Our Heritage</span>
+    <h2>Craft before claim.</h2>
+    <p>For over three decades, the hands behind this atelier have cut, draped, and constructed — developing an eye for fit, fabric, and finish that cannot be approximated.</p>
+    <p>PEASIS takes its inspiration from the peacock: presence without effort, drama held within discipline. Every bespoke piece is built to your measurements, your occasion, and your sensibility.</p>
   </div>
 </section>
 
-<!-- YOUTUBE SHORTS (ATELIER IN MOTION) -->
-<section class="shorts-section" id="process">
-  <div class="section-inner">
-    <div class="shorts-header reveal">
-      <p class="eyebrow" style="color: var(--gold)">The Process</p>
+<section class="shorts" id="process">
+  <div class="wrapper">
+    <div class="shorts-header fade-up">
+      <span class="eyebrow">The Process</span>
       <h2>Atelier in Motion</h2>
-      <p style="color: rgba(250,249,246,0.6); max-width: 40ch; margin: 0 auto;">An intimate look behind the seams. From fabric selection to the final fitting.</p>
+      <p style="color: var(--stone); font-size: 14px;">An intimate look at the work taking shape.</p>
     </div>
-    <div class="shorts-grid reveal">
-      <!-- Short 1 -->
-      <div class="short-wrapper">
-        <iframe src="https://www.youtube.com/embed/Rl6ORTzVMAw?rel=0&modestbranding=1" title="Peasis Atelier Process" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <!-- Short 2 -->
-      <div class="short-wrapper">
-        <iframe src="https://www.youtube.com/embed/HI3oa2WjcLw?rel=0&modestbranding=1" title="Peasis Atelier Detail" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <!-- Short 3 -->
-      <div class="short-wrapper">
-        <iframe src="https://www.youtube.com/embed/FWt_x0OLYRI?rel=0&modestbranding=1" title="Peasis Fitting" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <!-- Short 4 -->
-      <div class="short-wrapper">
-        <iframe src="https://www.youtube.com/embed/s1Qa2-EkOoY?rel=0&modestbranding=1" title="Peasis Finish" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+    <div class="shorts-grid fade-up">
+      <div class="short-card"><iframe src="https://www.youtube.com/embed/Rl6ORTzVMAw" title="YouTube video player" allowfullscreen></iframe></div>
+      <div class="short-card"><iframe src="https://www.youtube.com/embed/HI3oa2WjcLw" title="YouTube video player" allowfullscreen></iframe></div>
+      <div class="short-card"><iframe src="https://www.youtube.com/embed/FWt_x0OLYRI" title="YouTube video player" allowfullscreen></iframe></div>
+      <div class="short-card"><iframe src="https://www.youtube.com/embed/s1Qa2-EkOoY" title="YouTube video player" allowfullscreen></iframe></div>
     </div>
   </div>
 </section>
 
-<!-- COLLECTIONS (EDITORIAL GRID) -->
-<section class="collections" id="collections">
-  <div class="section-inner">
-    <div class="collections-header reveal">
-      <h2>The Lookbook</h2>
+<section class="gallery" id="collections">
+  <div class="wrapper">
+    <div class="gallery-header fade-up">
+      <h2>The Collections</h2>
       <p class="eyebrow">Bespoke Commissions</p>
     </div>
 
-    <!-- First Row -->
-    <div class="editorial-grid reveal">
-      <div class="ed-item ed-large">
-        <!-- Swap to: src="./public/images/emerald-green-beaded-illusion-gown-1.jpg" -->
-        <img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&q=80&w=1200" alt="Collection Piece" />
-        <div class="ed-overlay">
-          <span>Signature</span>
-          <h3>Emerald Beaded Illusion</h3>
-        </div>
+    <!-- Tops & Sets -->
+    <div class="category fade-up">
+      <div class="cat-title">
+        <span>Tops & Sets</span>
+        <span class="cat-price">₦100k – ₦200k</span>
       </div>
-      <div class="ed-item ed-tall">
-        <!-- Swap to: src="./public/images/black-off-shoulder-ruffle-maxi-dress-1.jpg" -->
-        <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=1000" alt="Collection Piece" />
-        <div class="ed-overlay">
-          <span>Occasion</span>
-          <h3>Off-Shoulder Ruffle</h3>
+      <div class="grid">
+        <div class="frame">
+          <div class="frame-img"><img src="./public/images/Ankara%20peplum%20top%20(1).jpg" alt="Ankara Peplum Top"></div>
+          <div class="frame-info">
+            <div class="frame-name">Ankara Peplum Top</div>
+            <div class="frame-tag">Bespoke</div>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="frame-img"><img src="./public/images/Contemporary%20Ankara%20Bustier%20Top%20(1).jpg" alt="Contemporary Ankara Bustier Top"></div>
+          <div class="frame-info">
+            <div class="frame-name">Contemporary Bustier</div>
+            <div class="frame-tag">Bespoke</div>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="frame-img"><img src="./public/images/ankara-tie-front-two-piece-set-1.jpg" alt="Ankara Tie-Front Set"></div>
+          <div class="frame-info">
+            <div class="frame-name">Tie-Front Two-Piece</div>
+            <div class="frame-tag">Bespoke</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Second Row -->
-    <div class="editorial-grid reveal">
-      <div class="ed-item ed-square">
-        <!-- Swap to: src="./public/images/Contemporary%20Ankara%20Bustier%20Top%20(1).jpg" -->
-        <img src="https://images.unsplash.com/photo-1621344400115-467362f6b31c?auto=format&fit=crop&q=80&w=800" alt="Collection Piece" />
-        <div class="ed-overlay">
-          <span>Coordinates</span>
-          <h3>Ankara Bustier</h3>
-        </div>
+    <!-- Dresses & Gowns -->
+    <div class="category fade-up">
+      <div class="cat-title">
+        <span>Dresses & Gowns</span>
+        <span class="cat-price">₦150k – ₦500k</span>
       </div>
-      <div class="ed-item ed-wide">
-        <!-- Swap to: src="./public/images/lavender-beaded-bow-sleeve-occasion-dress-1.jpg" -->
-        <img src="https://images.unsplash.com/photo-1550639525-c97d455acf70?auto=format&fit=crop&q=80&w=1600" alt="Collection Piece" />
-        <div class="ed-overlay">
-          <span>Bespoke</span>
-          <h3>Lavender Bow-Sleeve Gown</h3>
+      <div class="grid">
+        <div class="frame">
+          <div class="frame-img"><img src="./public/images/Crystal%20Detail%20Office%20Dress%20(1).jpg" alt="Crystal Detail Office Dress"></div>
+          <div class="frame-info">
+            <div class="frame-name">Crystal Detail Midi</div>
+            <div class="frame-tag">Bespoke</div>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="frame-img"><img src="./public/images/Handkerchief%20hem%20dress%20(1).jpg" alt="Handkerchief Hem Dress"></div>
+          <div class="frame-info">
+            <div class="frame-name">Handkerchief Hem Dress</div>
+            <div class="frame-tag">Bespoke</div>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="frame-img"><img src="./public/images/black-fit-and-flare-midi-dress-1.jpg" alt="Black Fit-and-Flare"></div>
+          <div class="frame-info">
+            <div class="frame-name">Fit-and-Flare Midi</div>
+            <div class="frame-tag">Bespoke</div>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="frame-img"><img src="./public/images/black-off-shoulder-ruffle-maxi-dress-1.jpg" alt="Black Off-Shoulder"></div>
+          <div class="frame-info">
+            <div class="frame-name">Off-Shoulder Ruffle Maxi</div>
+            <div class="frame-tag">Bespoke</div>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="frame-img"><img src="./public/images/burgundy-blouse-floral-maxi-skirt-set-1.jpg" alt="Burgundy Blouse Set"></div>
+          <div class="frame-info">
+            <div class="frame-name">Burgundy Floral Set</div>
+            <div class="frame-tag">Bespoke</div>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Signature & Bridal -->
+    <div class="category fade-up">
+      <div class="cat-title">
+        <span>Signature & Bridal</span>
+        <span class="cat-price">Consultation Required</span>
+      </div>
+      <div class="grid">
+        <div class="frame">
+          <div class="frame-img"><img src="./public/images/lavender-beaded-bow-sleeve-occasion-dress-1.jpg" alt="Lavender Beaded Dress"></div>
+          <div class="frame-info">
+            <div class="frame-name">Lavender Bow-Sleeve Gown</div>
+            <div class="frame-tag">Signature</div>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="frame-img"><img src="./public/images/white-lace-corset-bridal-gown-1.jpg" alt="White Lace Bridal Gown"></div>
+          <div class="frame-info">
+            <div class="frame-name">Lace Corset Gown</div>
+            <div class="frame-tag">Bridal</div>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="frame-img"><img src="./public/images/classic-black-button-pencil-dress-1.jpg" alt="Classic Pencil Dress"></div>
+          <div class="frame-info">
+            <div class="frame-name">Classic Button Pencil</div>
+            <div class="frame-tag">Bespoke</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- CONTACT -->
-<section class="contact">
-  <div class="section-inner reveal">
-    <p class="eyebrow" style="color: var(--stone); margin-bottom: 1rem;">Begin</p>
+<footer class="footer">
+  <div class="wrapper fade-up">
+    <span class="eyebrow" style="color: rgba(249,248,246,0.6); margin-bottom: 1rem; display: block;">Begin</span>
     <h2>The atelier is ready.</h2>
-    <a href="https://wa.me/2348060495986" class="contact-cta" target="_blank">Consult with us</a>
+    <a href="https://wa.me/2348060495986" class="footer-cta" target="_blank">Chat with us on WhatsApp</a>
+    <div class="footer-bottom">
+      <span>PEASIS Lagos</span>
+      <span>© 2026. All rights reserved.</span>
+    </div>
   </div>
-</section>
-
-<footer>
-  <span>PEASIS Lagos</span>
-  <span>© 2026. All rights reserved.</span>
 </footer>
 
 <script>
-  // Nav scroll logic
-  const nav = document.getElementById('main-nav');
+  // Navbar scroll effect
+  const nav = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
-    if(window.scrollY > 50) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
-    }
+    if(window.scrollY > 50) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
   });
 
-  // Mobile menu
-  const toggle = document.getElementById('nav-toggle');
-  const menu = document.getElementById('mobile-menu');
-  toggle.addEventListener('click', () => {
-    toggle.classList.toggle('open');
-    menu.classList.toggle('open');
-    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
-  });
-  menu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      toggle.classList.remove('open');
-      menu.classList.remove('open');
-      document.body.style.overflow = '';
-    });
-  });
-
-  // Scroll reveal
-  const revealEls = document.querySelectorAll('.reveal');
+  // Scroll animations
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -534,8 +382,10 @@
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15 });
-  revealEls.forEach(el => observer.observe(el));
+  }, { threshold: 0.1 });
+  
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 </script>
+
 </body>
 </html>
