@@ -9,13 +9,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
-    /* ─── Tokens ─────────────────────────────────────────── */
+    /* ─── Tokens (Deep Charcoal & Warm Ivory) ────────────── */
     :root {
-      --ivory:   #F7F4EF;
-      --ink:     #1A1A18;
+      --ivory:   #FAF9F6;
+      --ink:     #0D0D0C;
+      --charcoal:#1A1A18;
       --stone:   #8B8B88;
-      --gold:    #9D7B4B;
-      --emerald: #2D5A3D;
+      --gold:    #B38B4D;
+      --emerald: #1B4332;
       --serif:   'Cormorant Garamond', Georgia, serif;
       --sans:    'Jost', system-ui, sans-serif;
     }
@@ -31,6 +32,7 @@
       font-size: 16px;
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
     img { display: block; width: 100%; height: auto; }
     a { color: inherit; text-decoration: none; }
@@ -38,12 +40,14 @@
     /* ─── Utility ────────────────────────────────────────── */
     .eyebrow {
       font-family: var(--sans);
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 500;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--stone);
     }
+    .section-inner { max-width: 1440px; margin: 0 auto; padding: 0 4rem; }
+    @media (max-width: 768px) { .section-inner { padding: 0 1.5rem; } }
 
     /* ─── Navigation ─────────────────────────────────────── */
     nav {
@@ -53,1358 +57,470 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1.4rem 3rem;
-      background: var(--ivory);
-      border-bottom: 1px solid rgba(26,26,24,0.08);
-      transition: box-shadow 0.3s;
+      padding: 1.5rem 4rem;
+      transition: all 0.4s ease;
+      background: transparent;
+      color: var(--ivory);
     }
-    nav.scrolled { box-shadow: 0 1px 24px rgba(26,26,24,0.06); }
+    nav.scrolled { 
+      background: rgba(250, 249, 246, 0.95); 
+      backdrop-filter: blur(10px);
+      color: var(--ink);
+      padding: 1rem 4rem;
+      box-shadow: 0 1px 24px rgba(0,0,0,0.03); 
+    }
+    @media (max-width: 768px) { nav, nav.scrolled { padding: 1rem 1.5rem; } }
 
-    .nav-logo img {
-      height: 36px;
-      width: auto;
-    }
-    /* Fallback if logo image not present */
     .nav-logo-text {
       font-family: var(--serif);
       font-size: 1.5rem;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      display: none;
+      font-weight: 400;
+      letter-spacing: 0.2em;
     }
-    .nav-logo img:not([src]), .nav-logo img[src=""] { display: none; }
-    .nav-logo img:not([src]) ~ .nav-logo-text,
-    .nav-logo img[src=""] ~ .nav-logo-text { display: block; }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
+    
+    .nav-links { display: flex; gap: 3rem; list-style: none; }
     .nav-links a {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--stone);
-      transition: color 0.2s;
+      transition: opacity 0.3s;
     }
-    .nav-links a:hover { color: var(--ink); }
-
-    .nav-wa {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--emerald);
-      border: 1px solid var(--emerald);
-      padding: 0.5rem 1rem;
-      transition: background 0.2s, color 0.2s;
-    }
-    .nav-wa:hover { background: var(--emerald); color: var(--ivory); }
+    .nav-links a:hover { opacity: 0.6; }
 
     /* Hamburger */
     .nav-toggle {
       display: none;
       flex-direction: column;
-      gap: 5px;
+      gap: 6px;
       cursor: pointer;
-      padding: 4px;
+      z-index: 101;
     }
     .nav-toggle span {
-      display: block;
-      width: 22px;
-      height: 1px;
-      background: var(--ink);
-      transition: transform 0.3s, opacity 0.3s;
+      display: block; width: 24px; height: 1px;
+      background: currentColor;
+      transition: all 0.3s;
     }
-    .nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-toggle.open span { background: var(--ink); }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .nav-toggle.open span:nth-child(2) { opacity: 0; }
-    .nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: var(--ivory);
+      color: var(--ink);
       z-index: 99;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2.5rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 3rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
     }
-    .mobile-menu.open { display: flex; }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
     .mobile-menu a {
       font-family: var(--serif);
-      font-size: 2rem;
-      font-weight: 400;
-      letter-spacing: 0.05em;
-    }
-    .mobile-menu .mobile-wa {
-      font-family: var(--sans);
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--emerald);
-      border: 1px solid var(--emerald);
-      padding: 0.7rem 1.4rem;
-      margin-top: 1rem;
+      font-size: 2.5rem;
+      font-style: italic;
     }
 
-    /* ─── Hero ───────────────────────────────────────────── */
+    /* ─── Hero Cinematic ─────────────────────────────────── */
     .hero {
-      min-height: 100svh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      padding-top: 72px;
-    }
-    .hero-image {
       position: relative;
-      overflow: hidden;
-    }
-    .hero-image img {
-      height: 100%;
-      object-fit: cover;
-    }
-    /* Placeholder when no image */
-    .hero-image-placeholder {
-      height: 100%;
-      min-height: 70vh;
-      background: linear-gradient(160deg, #e8e3d8 0%, #d4cfc4 100%);
+      height: 100svh;
       display: flex;
       align-items: flex-end;
-      padding: 2rem;
+      color: var(--ivory);
+      overflow: hidden;
     }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: -2;
+    }
+    .hero-bg img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.65) contrast(1.1);
+      transform: scale(1.05);
+      animation: slowZoom 20s ease-out infinite alternate;
+    }
+    @keyframes slowZoom { from { transform: scale(1.05); } to { transform: scale(1.1); } }
+    
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(to top, rgba(13,13,12,0.8) 0%, rgba(13,13,12,0) 50%);
+    }
+
     .hero-content {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 4rem 4rem 5rem 4rem;
+      padding: 6rem 4rem;
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
     }
-    .hero-content .eyebrow { margin-bottom: 2rem; }
     .hero-headline {
       font-family: var(--serif);
-      font-size: clamp(3rem, 5vw, 5.5rem);
+      font-size: clamp(3.5rem, 8vw, 7rem);
       font-weight: 300;
-      line-height: 1.05;
-      letter-spacing: -0.01em;
-      margin-bottom: 2.5rem;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin: 1.5rem 0 2rem;
     }
-    .hero-headline em {
-      font-style: italic;
-      color: var(--gold);
-    }
+    .hero-headline em { font-style: italic; color: var(--gold); }
     .hero-sub {
-      font-size: 14px;
-      color: var(--stone);
-      max-width: 28ch;
-      line-height: 1.8;
-      margin-bottom: 3rem;
-    }
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-    }
-    .hero-cta::after {
-      content: '';
-      display: block;
-      width: 40px;
-      height: 1px;
-      background: var(--ink);
-      transition: width 0.3s;
-    }
-    .hero-cta:hover::after { width: 60px; }
-    .hero-scroll {
-      position: absolute;
-      bottom: 2rem;
-      right: 2rem;
-      writing-mode: vertical-lr;
-      font-size: 9px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--stone);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .hero-scroll::after {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 40px;
-      background: var(--stone);
-      animation: scrollLine 2s ease-in-out infinite;
-    }
-    @keyframes scrollLine {
-      0%, 100% { opacity: 0.3; transform: scaleY(1); }
-      50% { opacity: 1; transform: scaleY(0.6); }
+      font-size: 16px;
+      max-width: 40ch;
+      line-height: 1.6;
+      opacity: 0.8;
     }
 
-    /* ─── Section base ───────────────────────────────────── */
-    section { padding: 7rem 3rem; }
-    .section-inner { max-width: 1280px; margin: 0 auto; }
-
-    /* ─── Maison ─────────────────────────────────────────── */
+    /* ─── Maison / Story ─────────────────────────────────── */
     .maison {
-      background: var(--ink);
-      color: var(--ivory);
+      background: var(--ivory);
+      padding: 10rem 0;
     }
     .maison-inner {
-      max-width: 1280px;
-      margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 1.6fr;
-      gap: 6rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 8rem;
       align-items: center;
     }
-    .maison-label { color: var(--stone); }
-    .maison-year {
-      font-family: var(--serif);
-      font-size: clamp(5rem, 10vw, 9rem);
-      font-weight: 300;
-      line-height: 1;
-      color: rgba(247,244,239,0.08);
-      letter-spacing: -0.02em;
-      margin-top: 1rem;
+    .maison-img {
+      position: relative;
+      aspect-ratio: 4/5;
+      overflow: hidden;
     }
     .maison-text h2 {
       font-family: var(--serif);
-      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-size: clamp(2.5rem, 4vw, 4rem);
       font-weight: 300;
-      line-height: 1.25;
-      margin-bottom: 2rem;
+      line-height: 1.1;
+      margin-bottom: 2.5rem;
     }
-    .maison-text h2 em { font-style: italic; color: var(--gold); }
     .maison-text p {
-      color: rgba(247,244,239,0.65);
-      font-size: 15px;
+      color: var(--charcoal);
+      font-size: 16px;
       line-height: 1.9;
-      max-width: 52ch;
+      margin-bottom: 1.5rem;
+      max-width: 45ch;
     }
-    .maison-text p + p { margin-top: 1.2rem; }
-    .maison-rule {
-      width: 40px;
-      height: 1px;
-      background: var(--gold);
-      margin: 2rem 0;
+    .signature-line {
+      width: 60px; height: 1px; background: var(--gold); margin: 3rem 0;
     }
 
-    /* ─── The Meaning (PEASIS reveal) ───────────────────── */
-    .meaning {
-      padding: 8rem 3rem;
+    /* ─── Atelier in Motion (YouTube Shorts) ─────────────── */
+    .shorts-section {
+      background: var(--ink);
+      color: var(--ivory);
+      padding: 8rem 0;
     }
-    .meaning-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-    }
-    .meaning-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+    .shorts-header {
+      text-align: center;
       margin-bottom: 5rem;
     }
-    .meaning-title {
+    .shorts-header h2 {
       font-family: var(--serif);
-      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
-      font-weight: 300;
-      line-height: 1.3;
-      max-width: 28ch;
-    }
-    .meaning-intro {
-      font-size: 14px;
-      color: var(--stone);
-      max-width: 36ch;
-      line-height: 1.9;
-      padding-top: 0.4rem;
-    }
-
-    /* The split reveal */
-    .meaning-split {
-      display: grid;
-      grid-template-columns: 1fr 80px 1fr;
-      gap: 0;
-      align-items: stretch;
-      border-top: 1px solid rgba(26,26,24,0.1);
-    }
-    .meaning-half {
-      padding: 4rem 3rem;
-    }
-    .meaning-half:first-child { border-right: 1px solid rgba(26,26,24,0.1); }
-    .meaning-divider {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem 0;
-    }
-    .meaning-feather {
-      flex: 1;
-    }
-    .meaning-letters {
-      font-family: var(--serif);
-      font-size: clamp(4rem, 8vw, 7rem);
-      font-weight: 300;
-      line-height: 1;
-      letter-spacing: 0.1em;
-      color: rgba(26,26,24,0.08);
-      margin-bottom: 0.5rem;
-    }
-    .meaning-letters span {
-      color: var(--ink);
-      position: relative;
-    }
-    .meaning-word {
-      font-family: var(--serif);
-      font-size: clamp(1.3rem, 2.5vw, 2rem);
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      margin: 0.5rem 0 0.3rem;
-    }
-    .meaning-def {
-      font-size: 13px;
-      color: var(--stone);
-      line-height: 1.8;
-      max-width: 32ch;
-    }
-    .meaning-tag {
-      display: inline-block;
-      font-size: 9px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      border: 1px solid rgba(157,123,75,0.4);
-      padding: 0.2em 0.6em;
-      margin-bottom: 1.2rem;
-    }
-    .meaning-tagline {
-      margin-top: 5rem;
-      text-align: center;
-      padding: 4rem 2rem;
-      border-top: 1px solid rgba(26,26,24,0.1);
-    }
-    .meaning-tagline h3 {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-size: clamp(2rem, 3.5vw, 3.5rem);
       font-weight: 300;
       font-style: italic;
-      color: var(--ink);
-      line-height: 1.3;
+      margin-bottom: 1rem;
     }
-    .meaning-tagline h3 em {
-      font-style: normal;
-      color: var(--emerald);
+    .shorts-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .short-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 177.77%; /* 16:9 inverted for vertical video */
+      background: var(--charcoal);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: transform 0.4s ease;
+    }
+    .short-wrapper:hover {
+      transform: translateY(-10px);
+    }
+    .short-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      border: none;
+    }
+    @media (max-width: 1024px) { .shorts-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { 
+      .shorts-grid { 
+        display: flex; 
+        overflow-x: auto; 
+        scroll-snap-type: x mandatory; 
+        padding-bottom: 2rem;
+        gap: 1rem;
+      }
+      .short-wrapper {
+        flex: 0 0 80%;
+        scroll-snap-align: center;
+      }
     }
 
-    /* ─── Collections ────────────────────────────────────── */
-    .collections { padding: 7rem 3rem; }
+    /* ─── Editorial Collections Grid ─────────────────────── */
+    .collections { padding: 10rem 0; }
     .collections-header {
-      max-width: 1280px;
-      margin: 0 auto 4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 6rem;
+      border-bottom: 1px solid rgba(13,13,12,0.1);
+      padding-bottom: 2rem;
     }
     .collections-header h2 {
       font-family: var(--serif);
-      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-size: clamp(3rem, 5vw, 4.5rem);
       font-weight: 300;
-      line-height: 1.15;
-    }
-    .collections-note {
-      font-size: 13px;
-      color: var(--stone);
-      max-width: 26ch;
-      text-align: right;
-      line-height: 1.7;
     }
 
-    /* Currency toggle */
-    .currency-toggle {
-      max-width: 1280px;
-      margin: 0 auto 3.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .currency-toggle label {
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--stone);
-    }
-    .currency-select {
-      appearance: none;
-      background: transparent;
-      border: 1px solid rgba(26,26,24,0.2);
-      color: var(--ink);
-      font-family: var(--sans);
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      padding: 0.4rem 1.8rem 0.4rem 0.8rem;
-      cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238B8B88'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 0.6rem center;
-    }
-    .currency-note {
-      font-size: 11px;
-      color: var(--stone);
-      font-style: italic;
-    }
-
-    /* Category sections */
-    .cat-section {
-      max-width: 1280px;
-      margin: 0 auto 6rem;
-    }
-    .cat-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      border-top: 1px solid rgba(26,26,24,0.15);
-      padding-top: 1.2rem;
-      margin-bottom: 2.5rem;
-    }
-    .cat-name {
-      font-family: var(--serif);
-      font-size: 1.5rem;
-      font-weight: 400;
-    }
-    .cat-range {
-      font-size: 12px;
-      letter-spacing: 0.05em;
-      color: var(--stone);
-    }
-    .cat-grid {
+    .editorial-grid {
       display: grid;
-      gap: 1.5rem;
-    }
-    .cat-grid.grid-2 { grid-template-columns: 1.2fr 1fr; }
-    .cat-grid.grid-3 { grid-template-columns: 1fr 1.4fr 1fr; }
-    .cat-grid.grid-1 { grid-template-columns: 1fr; max-width: 600px; }
-
-    .piece {
-      position: relative;
-      overflow: hidden;
-      background: #e8e3d8;
-    }
-    .piece img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
-    }
-    .piece:hover img { transform: scale(1.03); }
-    .piece-img-placeholder {
-      width: 100%;
-      aspect-ratio: 3/4;
-      background: linear-gradient(160deg, #e8e3d8 0%, #d4cfc4 100%);
-      display: flex;
-      align-items: flex-end;
-      padding: 1.5rem;
-    }
-    .piece-label {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 1.5rem;
-      background: linear-gradient(transparent, rgba(26,26,24,0.55));
-      color: var(--ivory);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .piece:hover .piece-label { opacity: 1; }
-    .piece-label-name {
-      font-family: var(--serif);
-      font-size: 1.1rem;
-      font-weight: 400;
-    }
-    .piece-label-tag {
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(247,244,239,0.7);
-      margin-top: 0.2rem;
-    }
-    .consult-band {
-      background: rgba(26,26,24,0.03);
-      border: 1px solid rgba(26,26,24,0.1);
-      padding: 1.5rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 1.5rem;
-    }
-    .consult-band p {
-      font-size: 13px;
-      color: var(--stone);
-      max-width: 40ch;
-    }
-    .consult-band a {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--emerald);
-      white-space: nowrap;
-      margin-left: 2rem;
-    }
-    .consult-band a:hover { text-decoration: underline; }
-
-    /* ─── RTW ────────────────────────────────────────────── */
-    .rtw {
-      background: var(--ink);
-      color: var(--ivory);
-      padding: 7rem 3rem;
-    }
-    .rtw-inner { max-width: 1280px; margin: 0 auto; }
-    .rtw-header {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: end;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 2rem;
       margin-bottom: 4rem;
     }
-    .rtw-header h2 {
-      font-family: var(--serif);
-      font-size: clamp(2.2rem, 4vw, 3.5rem);
-      font-weight: 300;
-      line-height: 1.15;
-    }
-    .rtw-header h2 em { font-style: italic; color: var(--gold); }
-    .rtw-desc {
-      font-size: 14px;
-      color: rgba(247,244,239,0.6);
-      line-height: 1.9;
-    }
-    .rtw-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-    .rtw-piece {
-      background: rgba(247,244,239,0.05);
+    .ed-item {
+      position: relative;
       overflow: hidden;
+      background: #EBE8E1;
+      group: inherit;
     }
-    .rtw-piece-img {
-      aspect-ratio: 2/3;
-      overflow: hidden;
-      background: rgba(247,244,239,0.08);
+    .ed-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94);
     }
-    .rtw-piece-img img {
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.7s ease;
+    .ed-item:hover img { transform: scale(1.05); }
+    
+    .ed-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(13,13,12,0.6) 0%, transparent 40%);
+      opacity: 0; transition: opacity 0.4s;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 2rem; color: var(--ivory);
     }
-    .rtw-piece:hover .rtw-piece-img img { transform: scale(1.04); }
-    .rtw-piece-info {
-      padding: 1.2rem 1.2rem 1.5rem;
-    }
-    .rtw-piece-name {
-      font-family: var(--serif);
-      font-size: 1.1rem;
-      margin-bottom: 0.2rem;
-    }
-    .rtw-piece-price {
-      font-size: 12px;
-      color: var(--gold);
-      letter-spacing: 0.05em;
-      margin-bottom: 1rem;
-    }
-    .rtw-piece-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--ivory);
-      opacity: 0.7;
-      transition: opacity 0.2s, gap 0.2s;
-    }
-    .rtw-piece-cta::after { content: '→'; }
-    .rtw-piece:hover .rtw-piece-cta { opacity: 1; gap: 0.8rem; }
+    .ed-item:hover .ed-overlay { opacity: 1; }
+    .ed-overlay h3 { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; }
+    .ed-overlay span { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
 
-    /* ─── Atelier / Process ──────────────────────────────── */
-    .atelier { padding: 7rem 3rem; }
-    .atelier-inner { max-width: 1280px; margin: 0 auto; }
-    .atelier-header {
-      margin-bottom: 5rem;
+    /* Masonry-like placements */
+    .ed-large { grid-column: span 7; aspect-ratio: 3/4; }
+    .ed-tall { grid-column: span 5; aspect-ratio: 2/3; }
+    .ed-square { grid-column: span 4; aspect-ratio: 1/1; }
+    .ed-wide { grid-column: span 8; aspect-ratio: 16/9; }
+    
+    @media (max-width: 900px) {
+      .editorial-grid { display: flex; flex-direction: column; }
+      .ed-item { aspect-ratio: 3/4 !important; }
     }
-    .atelier-header h2 {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      font-weight: 300;
-      line-height: 1.2;
-      margin-top: 0.8rem;
-      max-width: 20ch;
-    }
-    .atelier-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: rgba(26,26,24,0.1);
-      border: 1px solid rgba(26,26,24,0.1);
-    }
-    .atelier-track {
-      background: var(--ivory);
-      padding: 3rem;
-    }
-    .atelier-track-label {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
-    }
-    .atelier-track h3 {
-      font-family: var(--serif);
-      font-size: 1.5rem;
-      font-weight: 400;
-      margin-bottom: 1.2rem;
-    }
-    .atelier-track p {
-      font-size: 14px;
-      color: var(--stone);
-      line-height: 1.85;
-      margin-bottom: 1rem;
-    }
-    .atelier-steps {
-      margin-top: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .atelier-step {
-      display: flex;
-      gap: 1.2rem;
-      align-items: flex-start;
-    }
-    .atelier-step-n {
-      font-family: var(--serif);
-      font-size: 0.85rem;
-      color: var(--stone);
-      min-width: 1.5rem;
-      padding-top: 0.1rem;
-    }
-    .atelier-step-text {
-      font-size: 13px;
-      color: var(--stone);
-      line-height: 1.75;
-    }
-    .atelier-step-text strong {
-      display: block;
-      color: var(--ink);
-      font-weight: 500;
-      font-size: 14px;
-      margin-bottom: 0.1rem;
-    }
-    .atelier-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.8rem;
-      margin-top: 2rem;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--emerald);
-      border: 1px solid var(--emerald);
-      padding: 0.7rem 1.2rem;
-      transition: background 0.2s, color 0.2s;
-    }
-    .atelier-cta:hover { background: var(--emerald); color: var(--ivory); }
 
-    /* ─── Contact ────────────────────────────────────────── */
+    /* ─── Contact / Footer ───────────────────────────────── */
     .contact {
-      background: var(--emerald);
+      background: var(--ink);
       color: var(--ivory);
-      padding: 7rem 3rem;
-      position: relative;
-      overflow: hidden;
+      padding: 8rem 0;
+      text-align: center;
     }
-    .contact::before {
-      content: 'PEASIS';
-      position: absolute;
-      bottom: -2rem;
-      right: -1rem;
+    .contact h2 {
       font-family: var(--serif);
-      font-size: clamp(8rem, 18vw, 16rem);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
       font-weight: 300;
-      color: rgba(247,244,239,0.06);
-      letter-spacing: 0.05em;
-      pointer-events: none;
-      user-select: none;
-    }
-    .contact-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: end;
-      position: relative;
-      z-index: 1;
-    }
-    .contact-left h2 {
-      font-family: var(--serif);
-      font-size: clamp(2.5rem, 5vw, 5rem);
-      font-weight: 300;
-      line-height: 1.1;
-      margin-top: 1rem;
+      font-style: italic;
       margin-bottom: 2rem;
     }
-    .contact-left h2 em { font-style: italic; }
-    .contact-left p {
-      font-size: 14px;
-      color: rgba(247,244,239,0.7);
-      max-width: 36ch;
-      line-height: 1.9;
+    .contact-cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 1rem 3rem;
+      background: var(--ivory); color: var(--ink);
+      font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+      transition: background 0.3s, color 0.3s;
     }
-    .contact-links {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .contact-link {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(247,244,239,0.15);
-    }
-    .contact-link:last-child { border-bottom: none; padding-bottom: 0; }
-    .contact-link-label {
-      font-size: 9px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: rgba(247,244,239,0.5);
-    }
-    .contact-link-value {
-      font-family: var(--serif);
-      font-size: 1.3rem;
-      color: var(--ivory);
-      transition: color 0.2s;
-    }
-    .contact-link:hover .contact-link-value { color: rgba(247,244,239,0.7); }
-    .contact-link-sub {
-      font-size: 11px;
-      color: rgba(247,244,239,0.45);
-    }
-    .wa-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.8rem;
-      margin-top: 2rem;
-      background: rgba(247,244,239,0.12);
-      border: 1px solid rgba(247,244,239,0.25);
-      color: var(--ivory);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 0.9rem 1.4rem;
-      transition: background 0.2s;
-    }
-    .wa-button:hover { background: rgba(247,244,239,0.22); }
-    .wa-button svg { width: 16px; height: 16px; }
+    .contact-cta:hover { background: var(--gold); color: var(--ivory); }
 
-    /* ─── Footer ─────────────────────────────────────────── */
     footer {
       background: var(--ink);
-      color: rgba(247,244,239,0.35);
-      padding: 2.5rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 11px;
-      letter-spacing: 0.1em;
-    }
-    .footer-brand {
-      font-family: var(--serif);
-      font-size: 1rem;
-      color: rgba(247,244,239,0.5);
-      letter-spacing: 0.15em;
+      color: rgba(250,249,246,0.5);
+      padding: 3rem 4rem;
+      display: flex; justify-content: space-between;
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      border-top: 1px solid rgba(250,249,246,0.1);
     }
 
-    /* ─── Floating WA ────────────────────────────────────── */
-    .float-wa {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      z-index: 50;
-      background: var(--emerald);
-      color: var(--ivory);
-      width: 52px;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 20px rgba(45,90,61,0.35);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .float-wa:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(45,90,61,0.45);
-    }
-    .float-wa svg { width: 24px; height: 24px; }
-
-    /* ─── Scroll reveal ──────────────────────────────────── */
+    /* ─── Scroll Reveal ──────────────────────────────────── */
     .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      opacity: 0; transform: translateY(30px);
+      transition: all 0.9s cubic-bezier(0.25,0.46,0.45,0.94);
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1; transform: none; }
-    }
-
-    /* ─── Responsive ─────────────────────────────────────── */
-    @media (max-width: 900px) {
-      nav { padding: 1.2rem 1.5rem; }
-      .nav-links, .nav-wa { display: none; }
-      .nav-toggle { display: flex; }
-
-      .hero { grid-template-columns: 1fr; min-height: auto; }
-      .hero-image { min-height: 65vw; }
-      .hero-content { padding: 2.5rem 1.5rem 3rem; }
-
-      section { padding: 4rem 1.5rem; }
-
-      .maison-inner { grid-template-columns: 1fr; gap: 2rem; }
-      .maison-year { font-size: 6rem; }
-
-      .meaning-top { flex-direction: column; gap: 1.5rem; }
-      .meaning-split {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
-      }
-      .meaning-half:first-child { border-right: none; border-bottom: 1px solid rgba(26,26,24,0.1); }
-      .meaning-divider {
-        flex-direction: row;
-        justify-content: center;
-        padding: 1.5rem 0;
-        border-top: 1px solid rgba(26,26,24,0.1);
-        border-bottom: 1px solid rgba(26,26,24,0.1);
-      }
-
-      .collections-header { flex-direction: column; gap: 1rem; }
-      .collections-header h2 { font-size: 2rem; }
-      .collections-note { text-align: left; }
-
-      .cat-grid.grid-2, .cat-grid.grid-3 { grid-template-columns: 1fr; }
-
-      .rtw-header { grid-template-columns: 1fr; gap: 1.5rem; }
-      .rtw-grid { grid-template-columns: 1fr 1fr; }
-
-      .atelier-grid { grid-template-columns: 1fr; }
-
-      .contact { padding: 4rem 1.5rem; }
-      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
-
-      footer { flex-direction: column; gap: 1rem; text-align: center; }
-    }
-    @media (max-width: 560px) {
-      .rtw-grid { grid-template-columns: 1fr; }
-    }
+    .reveal.visible { opacity: 1; transform: none; }
   </style>
 </head>
 <body>
 
 <nav id="main-nav">
-  <a href="#" class="nav-logo" aria-label="PEASIS Home">
-    <img src="./public/images/Peasis-logo-nav.png" alt="PEASIS" />
-    <span class="nav-logo-text">PEASIS</span>
-  </a>
+  <a href="#" class="nav-logo-text">PEASIS</a>
   <ul class="nav-links">
+    <li><a href="#maison">The Maison</a></li>
+    <li><a href="#process">Process</a></li>
     <li><a href="#collections">Collections</a></li>
-    <li><a href="#rtw">Ready-to-Wear</a></li>
-    <li><a href="#atelier">Atelier</a></li>
-    <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="https://wa.me/2348060495986" class="nav-wa" target="_blank" rel="noopener">Chat with the Atelier</a>
   <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
 <div class="mobile-menu" id="mobile-menu">
-  <a href="#collections" class="mobile-link">Collections</a>
-  <a href="#rtw" class="mobile-link">Ready-to-Wear</a>
-  <a href="#atelier" class="mobile-link">Atelier</a>
-  <a href="#contact" class="mobile-link">Contact</a>
-  <a href="https://wa.me/2348060495986" class="mobile-wa" target="_blank" rel="noopener">Chat with the Atelier →</a>
+  <a href="#maison">The Maison</a>
+  <a href="#process">Process</a>
+  <a href="#collections">Collections</a>
+  <a href="https://wa.me/2348060495986" style="font-size: 1rem; font-family: var(--sans); text-transform: uppercase; letter-spacing: 0.2em; border-bottom: 1px solid var(--ink); padding-bottom: 5px; margin-top: 2rem;">Book Consultation</a>
 </div>
 
-<section class="hero" aria-label="Hero">
-  <div class="hero-image">
-    <img src="./public/images/emerald-green-beaded-illusion-gown-1.jpg" alt="Emerald Green Beaded Illusion Gown — PEASIS" onerror="this.style.display='none'" />
-    <div class="hero-image-placeholder" aria-hidden="true"></div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <!-- Beautiful cinematic placeholder. Swap back to your emerald dress when ready -->
+    <img src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&q=80&w=2000" alt="Bespoke Fashion" />
   </div>
-  <div class="hero-content">
-    <p class="eyebrow">Lagos Atelier — Est. Over Thirty Years</p>
-    <h1 class="hero-headline">
-      Thirty years<br />of hands<br />behind<br /><em>every piece.</em>
-    </h1>
-    <p class="hero-sub">Bespoke fashion from a Lagos maison that has known its craft since before it needed to explain it.</p>
-    <a href="#collections" class="hero-cta">View Collections</a>
+  <div class="hero-overlay"></div>
+  <div class="hero-content reveal">
+    <p class="eyebrow" style="color: rgba(250,249,246,0.7)">Lagos Atelier</p>
+    <h1 class="hero-headline">Thirty years of hands<br>behind <em>every piece.</em></h1>
+    <p class="hero-sub">Bespoke luxury built on family heritage and a singular conviction: quality speaks before description.</p>
   </div>
-  <div class="hero-scroll" aria-hidden="true">Scroll</div>
 </section>
 
+<!-- MAISON -->
 <section class="maison" id="maison">
-  <div class="maison-inner">
-    <div>
-      <p class="eyebrow maison-label">The Maison</p>
-      <div class="maison-year" aria-hidden="true">30+</div>
-    </div>
+  <div class="section-inner maison-inner">
     <div class="maison-text reveal">
-      <h2>Craft before <em>claim.</em><br />Work before words.</h2>
-      <div class="maison-rule"></div>
-      <p>PEASIS is a Lagos-based fashion house built on a singular conviction: that the quality of a garment speaks before any description of it can. For over three decades, the hands behind this atelier have cut, draped, and constructed — developing an eye for fit, fabric, and finish that cannot be approximated.</p>
-      <p>Every commission is handled with the patience the work demands. Bespoke is not a word we use loosely. It means your measurements, your occasion, your sensibility — built into something that will not look like anything else in the room.</p>
-      <p>We serve clients in Lagos and across the diaspora. The distance changes the process slightly. The standard does not change at all.</p>
+      <p class="eyebrow">Heritage & Craft</p>
+      <h2>Craft before <em>claim.</em></h2>
+      <p>PEASIS is a fashion house built on decades of discipline. The hands behind this atelier have cut, draped, and constructed for over thirty years—developing an eye for fit, fabric, and finish that cannot be approximated.</p>
+      <p>Every commission is handled with the patience the work demands. Built into something that will not look like anything else in the room. Poise. Color. Drama. We style your image to make you stun.</p>
+      <div class="signature-line"></div>
+    </div>
+    <div class="maison-img reveal">
+      <img src="https://images.unsplash.com/photo-1584288079815-512c12579b29?auto=format&fit=crop&q=80&w=1200" alt="Tailoring Process" />
     </div>
   </div>
 </section>
 
-<section class="meaning" id="meaning">
-  <div class="meaning-inner">
-    <div class="meaning-top reveal">
-      <h2 class="meaning-title">A name that carries its intention quietly.</h2>
-      <p class="meaning-intro">Every letter of PEASIS is placed on purpose. This is what it means — and what it promises.</p>
+<!-- YOUTUBE SHORTS (ATELIER IN MOTION) -->
+<section class="shorts-section" id="process">
+  <div class="section-inner">
+    <div class="shorts-header reveal">
+      <p class="eyebrow" style="color: var(--gold)">The Process</p>
+      <h2>Atelier in Motion</h2>
+      <p style="color: rgba(250,249,246,0.6); max-width: 40ch; margin: 0 auto;">An intimate look behind the seams. From fabric selection to the final fitting.</p>
     </div>
-
-    <div class="meaning-split reveal">
-      <div class="meaning-half">
-        <div class="meaning-letters"><span>PEA</span>SIS</div>
-        <span class="meaning-tag">Peacock</span>
-        <p class="meaning-word">Poise. Color. Drama.</p>
-        <p class="meaning-def">The peacock does not announce itself. It arrives. It carries color and structure with a confidence that requires no explanation. That is the energy every PEASIS garment is built to carry — presence without effort, drama held within discipline.</p>
+    <div class="shorts-grid reveal">
+      <!-- Short 1 -->
+      <div class="short-wrapper">
+        <iframe src="https://www.youtube.com/embed/Rl6ORTzVMAw?rel=0&modestbranding=1" title="Peasis Atelier Process" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
-
-      <div class="meaning-divider" aria-hidden="true">
-        <svg class="meaning-feather" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <line x1="20" y1="10" x2="20" y2="190" stroke="rgba(157,123,75,0.25)" stroke-width="1"/>
-          <path d="M20 50 C20 50, 8 60, 10 75 C12 90, 20 88, 20 88" stroke="rgba(157,123,75,0.4)" stroke-width="0.8" fill="none"/>
-          <path d="M20 50 C20 50, 32 60, 30 75 C28 90, 20 88, 20 88" stroke="rgba(157,123,75,0.4)" stroke-width="0.8" fill="none"/>
-          <path d="M20 90 C20 90, 6 102, 9 118 C12 134, 20 130, 20 130" stroke="rgba(157,123,75,0.35)" stroke-width="0.8" fill="none"/>
-          <path d="M20 90 C20 90, 34 102, 31 118 C28 134, 20 130, 20 130" stroke="rgba(157,123,75,0.35)" stroke-width="0.8" fill="none"/>
-          <path d="M20 130 C20 130, 10 140, 12 152 C14 164, 20 162, 20 162" stroke="rgba(157,123,75,0.25)" stroke-width="0.8" fill="none"/>
-          <path d="M20 130 C20 130, 30 140, 28 152 C26 164, 20 162, 20 162" stroke="rgba(157,123,75,0.25)" stroke-width="0.8" fill="none"/>
-          <circle cx="20" cy="50" r="2" fill="rgba(157,123,75,0.6)"/>
-        </svg>
+      <!-- Short 2 -->
+      <div class="short-wrapper">
+        <iframe src="https://www.youtube.com/embed/HI3oa2WjcLw?rel=0&modestbranding=1" title="Peasis Atelier Detail" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
-
-      <div class="meaning-half">
-        <div class="meaning-letters">PEA<span>SIS</span></div>
-        <span class="meaning-tag">Style. Image. Stun.</span>
-        <p class="meaning-word">We style your image to make you stun.</p>
-        <p class="meaning-def">SIS is the promise: that when you leave this atelier, you carry yourself differently. The garment has done its work. Your silhouette has been considered. The occasion has been met — and quietly exceeded. And in the word PEASIS, a quieter meaning still: <em>pieces</em> — the beautiful, deliberate pieces from which this is all built.</p>
+      <!-- Short 3 -->
+      <div class="short-wrapper">
+        <iframe src="https://www.youtube.com/embed/FWt_x0OLYRI?rel=0&modestbranding=1" title="Peasis Fitting" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
-    </div>
-
-    <div class="meaning-tagline reveal">
-      <h3>"We style your image to make you stun — <em>like a peacock.</em>"</h3>
+      <!-- Short 4 -->
+      <div class="short-wrapper">
+        <iframe src="https://www.youtube.com/embed/s1Qa2-EkOoY?rel=0&modestbranding=1" title="Peasis Finish" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- COLLECTIONS (EDITORIAL GRID) -->
 <section class="collections" id="collections">
-  <div class="collections-header reveal">
-    <h2 class="reveal">The Collections</h2>
-    <p class="collections-note">Each piece is available as a bespoke commission. Pricing shown as indicative ranges. Inquiry via WhatsApp or email.</p>
-  </div>
+  <div class="section-inner">
+    <div class="collections-header reveal">
+      <h2>The Lookbook</h2>
+      <p class="eyebrow">Bespoke Commissions</p>
+    </div>
 
-  <div class="currency-toggle reveal">
-    <label for="currency">View pricing in</label>
-    <select class="currency-select" id="currency" onchange="updateCurrency(this.value)">
-      <option value="NGN">₦ NGN</option>
-      <option value="USD">$ USD</option>
-      <option value="GBP">£ GBP</option>
-    </select>
-    <span class="currency-note" id="currency-note">— approximate conversion; final pricing confirmed at consultation</span>
-  </div>
+    <!-- First Row -->
+    <div class="editorial-grid reveal">
+      <div class="ed-item ed-large">
+        <!-- Swap to: src="./public/images/emerald-green-beaded-illusion-gown-1.jpg" -->
+        <img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&q=80&w=1200" alt="Collection Piece" />
+        <div class="ed-overlay">
+          <span>Signature</span>
+          <h3>Emerald Beaded Illusion</h3>
+        </div>
+      </div>
+      <div class="ed-item ed-tall">
+        <!-- Swap to: src="./public/images/black-off-shoulder-ruffle-maxi-dress-1.jpg" -->
+        <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=1000" alt="Collection Piece" />
+        <div class="ed-overlay">
+          <span>Occasion</span>
+          <h3>Off-Shoulder Ruffle</h3>
+        </div>
+      </div>
+    </div>
 
-  <div class="cat-section reveal">
-    <div class="cat-header">
-      <h3 class="cat-name">Tops &amp; Two-Piece Sets</h3>
-      <span class="cat-range" id="price-tops">₦100,000 – ₦200,000</span>
-    </div>
-    <div class="cat-grid grid-3">
-      <div class="piece">
-        <div class="piece-img-placeholder">
-          <img src="./public/images/Ankara%20peplum%20top%20(1).jpg" alt="Ankara Peplum Top" onerror="this.parentNode.style.minHeight='380px'" />
-        </div>
-        <div class="piece-label">
-          <div class="piece-label-name">Ankara Peplum Top</div>
-          <div class="piece-label-tag">Bespoke Commission</div>
+    <!-- Second Row -->
+    <div class="editorial-grid reveal">
+      <div class="ed-item ed-square">
+        <!-- Swap to: src="./public/images/Contemporary%20Ankara%20Bustier%20Top%20(1).jpg" -->
+        <img src="https://images.unsplash.com/photo-1621344400115-467362f6b31c?auto=format&fit=crop&q=80&w=800" alt="Collection Piece" />
+        <div class="ed-overlay">
+          <span>Coordinates</span>
+          <h3>Ankara Bustier</h3>
         </div>
       </div>
-      <div class="piece">
-        <div class="piece-img-placeholder" style="min-height:440px">
-          <img src="./public/images/Contemporary%20Ankara%20Bustier%20Top%20(1).jpg" alt="Contemporary Ankara Bustier Top" onerror="this.parentNode.style.minHeight='440px'" />
-        </div>
-        <div class="piece-label">
-          <div class="piece-label-name">Contemporary Ankara Bustier</div>
-          <div class="piece-label-tag">Bespoke Commission</div>
-        </div>
-      </div>
-      <div class="piece">
-        <div class="piece-img-placeholder">
-          <img src="./public/images/ankara-tie-front-two-piece-set-1.jpg" alt="Ankara Tie-Front Two-Piece Set" onerror="this.parentNode.style.minHeight='380px'" />
-        </div>
-        <div class="piece-label">
-          <div class="piece-label-name">Ankara Tie-Front Two-Piece Set</div>
-          <div class="piece-label-tag">Bespoke Commission</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="cat-section reveal">
-    <div class="cat-header">
-      <h3 class="cat-name">Dresses</h3>
-      <span class="cat-range" id="price-dresses">₦150,000 – ₦350,000</span>
-    </div>
-    <div class="cat-grid grid-2">
-      <div class="piece">
-        <div class="piece-img-placeholder" style="min-height:480px">
-          <img src="./public/images/Crystal%20Detail%20Office%20Dress%20(1).jpg" alt="Crystal Detail Office Dress" onerror="this.parentNode.style.minHeight='480px'" />
-        </div>
-        <div class="piece-label">
-          <div class="piece-label-name">Crystal Detail Office Dress</div>
-          <div class="piece-label-tag">Bespoke Commission</div>
-        </div>
-      </div>
-      <div class="piece">
-        <div class="piece-img-placeholder" style="min-height:480px">
-          <img src="./public/images/Handkerchief%20hem%20dress%20(1).jpg" alt="Handkerchief Hem Dress" onerror="this.parentNode.style.minHeight='480px'" />
-        </div>
-        <div class="piece-label">
-          <div class="piece-label-name">Handkerchief Hem Dress</div>
-          <div class="piece-label-tag">Bespoke Commission</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="cat-section reveal">
-    <div class="cat-header">
-      <h3 class="cat-name">Gowns &amp; Occasion</h3>
-      <span class="cat-range" id="price-gowns">₦200,000 – ₦500,000</span>
-    </div>
-    <div class="cat-grid grid-3">
-      <div class="piece">
-        <div class="piece-img-placeholder" style="min-height:520px">
-          <img src="./public/images/black-fit-and-flare-midi-dress-1.jpg" alt="Black Fit-and-Flare Midi Dress" onerror="this.parentNode.style.minHeight='520px'" />
-        </div>
-        <div class="piece-label">
-          <div class="piece-label-name">Black Fit-and-Flare Midi</div>
-          <div class="piece-label-tag">Bespoke Commission</div>
-        </div>
-      </div>
-      <div class="piece">
-        <div class="piece-img-placeholder" style="min-height:600px">
-          <img src="./public/images/black-off-shoulder-ruffle-maxi-dress-1.jpg" alt="Black Off-Shoulder Ruffle Maxi Dress" onerror="this.parentNode.style.minHeight='600px'" />
-        </div>
-        <div class="piece-label">
-          <div class="piece-label-name">Black Off-Shoulder Ruffle Maxi</div>
-          <div class="piece-label-tag">Bespoke Commission</div>
-        </div>
-      </div>
-      <div class="piece">
-        <div class="piece-img-placeholder" style="min-height:520px">
-          <img src="./public/images/burgundy-blouse-floral-maxi-skirt-set-1.jpg" alt="Burgundy Blouse & Floral Maxi Skirt Set" onerror="this.parentNode.style.minHeight='520px'" />
-        </div>
-        <div class="piece-label">
-          <div class="piece-label-name">Burgundy Blouse &amp; Floral Maxi Skirt</div>
-          <div class="piece-label-tag">Bespoke Commission</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="cat-section reveal">
-    <div class="cat-header">
-      <h3 class="cat-name">Signature &amp; Beaded Pieces</h3>
-      <span class="cat-range" id="price-signature">₦400,000 – ₦1,000,000+</span>
-    </div>
-    <div class="cat-grid grid-2">
-      <div class="piece">
-        <div class="piece-img-placeholder" style="min-height:600px">
-          <img src="./public/images/emerald-green-beaded-illusion-gown-1.jpg" alt="Emerald Green Beaded Illusion Gown" onerror="this.parentNode.style.minHeight='600px'" />
-        </div>
-        <div class="piece-label">
-          <div class="piece-label-name">Emerald Green Beaded Illusion Gown</div>
-          <div class="piece-label-tag">Signature Bespoke</div>
-        </div>
-      </div>
-      <div class="piece">
-        <div class="piece-img-placeholder" style="min-height:600px">
-          <img src="./public/images/lavender-beaded-bow-sleeve-occasion-dress-1.jpg" alt="Lavender Beaded Bow-Sleeve Occasion Dress" onerror="this.parentNode.style.minHeight='600px'" />
-        </div>
-        <div class="piece-label">
-          <div class="piece-label-name">Lavender Beaded Bow-Sleeve Gown</div>
-          <div class="piece-label-tag">Signature Bespoke</div>
-        </div>
-      </div>
-    </div>
-    <div class="consult-band reveal">
-      <p>Fully custom pieces — fabric and detail dependent. Beadwork, rare fabrics, and elaborate styles are developed in direct consultation with the atelier.</p>
-      <a href="https://wa.me/2348060495986" target="_blank" rel="noopener">Book a Consultation →</a>
-    </div>
-  </div>
-
-  <div class="cat-section reveal">
-    <div class="cat-header">
-      <h3 class="cat-name">Bridal</h3>
-      <span class="cat-range">By consultation</span>
-    </div>
-    <div class="cat-grid grid-1">
-      <div class="piece">
-        <div class="piece-img-placeholder" style="min-height:600px">
-          <img src="./public/images/white-lace-corset-bridal-gown-1.jpg" alt="White Lace Corset Bridal Gown" onerror="this.parentNode.style.minHeight='600px'" />
-        </div>
-        <div class="piece-label">
-          <div class="piece-label-name">White Lace Corset Bridal Gown</div>
-          <div class="piece-label-tag">Bespoke Bridal</div>
-        </div>
-      </div>
-    </div>
-    <div class="consult-band reveal">
-      <p>Bridal work is entirely bespoke. Every gown begins with a consultation, proceeds through detailed fittings, and is finished to the day.</p>
-      <a href="mailto:styleimagestun@gmail.com">Begin Your Bridal Inquiry →</a>
-    </div>
-  </div>
-
-  <div class="cat-section reveal">
-    <div class="cat-header">
-      <h3 class="cat-name">Coordinates &amp; Separates</h3>
-      <span class="cat-range" id="price-separates">₦120,000 – ₦250,000</span>
-    </div>
-    <div class="cat-grid grid-2">
-      <div class="piece">
-        <div class="piece-img-placeholder" style="min-height:420px">
-          <img src="./public/images/printed-wide-leg-pants-1.jpg" alt="Printed Wide-Leg Pants" onerror="this.parentNode.style.minHeight='420px'" />
-        </div>
-        <div class="piece-label">
-          <div class="piece-label-name">Printed Wide-Leg Pants</div>
-          <div class="piece-label-tag">Bespoke Commission</div>
-        </div>
-      </div>
-      <div class="piece">
-        <div class="piece-img-placeholder" style="min-height:420px">
-          <img src="./public/images/classic-black-button-pencil-dress-1.jpg" alt="Classic Black Button Pencil Dress" onerror="this.parentNode.style.minHeight='420px'" />
-        </div>
-        <div class="piece-label">
-          <div class="piece-label-name">Classic Black Button Pencil Dress</div>
-          <div class="piece-label-tag">Bespoke Commission</div>
+      <div class="ed-item ed-wide">
+        <!-- Swap to: src="./public/images/lavender-beaded-bow-sleeve-occasion-dress-1.jpg" -->
+        <img src="https://images.unsplash.com/photo-1550639525-c97d455acf70?auto=format&fit=crop&q=80&w=1600" alt="Collection Piece" />
+        <div class="ed-overlay">
+          <span>Bespoke</span>
+          <h3>Lavender Bow-Sleeve Gown</h3>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="rtw" id="rtw">
-  <div class="rtw-inner">
-    <div class="rtw-header reveal">
-      <h2>Ready-to-Wear<br /><em>Available Now</em></h2>
-      <p class="rtw-desc">A curated selection of finished pieces — each made to the same standard as our bespoke commissions, available to acquire without a wait. Inquire via WhatsApp for availability and sizing.</p>
-    </div>
-    <div class="rtw-grid">
-      <div class="rtw-piece reveal">
-        <div class="rtw-piece-img">
-          <img src="./public/images/Ankara%20peplum%20top%20(1).jpg" alt="Ankara Peplum Top" />
-        </div>
-        <div class="rtw-piece-info">
-          <div class="rtw-piece-name">Ankara Peplum Top</div>
-          <div class="rtw-piece-price" data-ngn="100000">From ₦100,000</div>
-          <a href="https://wa.me/2348060495986?text=Hello%2C%20I%27m%20interested%20in%20the%20Ankara%20Peplum%20Top%20from%20your%20Ready-to-Wear%20collection." class="rtw-piece-cta" target="_blank" rel="noopener">Inquire</a>
-        </div>
-      </div>
-      <div class="rtw-piece reveal">
-        <div class="rtw-piece-img">
-          <img src="./public/images/Contemporary%20Ankara%20Bustier%20Top%20(1).jpg" alt="Contemporary Ankara Bustier Top" />
-        </div>
-        <div class="rtw-piece-info">
-          <div class="rtw-piece-name">Contemporary Ankara Bustier</div>
-          <div class="rtw-piece-price" data-ngn="120000">From ₦120,000</div>
-          <a href="https://wa.me/2348060495986?text=Hello%2C%20I%27m%20interested%20in%20the%20Contemporary%20Ankara%20Bustier%20Top." class="rtw-piece-cta" target="_blank" rel="noopener">Inquire</a>
-        </div>
-      </div>
-      <div class="rtw-piece reveal">
-        <div class="rtw-piece-img">
-          <img src="./public/images/ankara-tie-front-two-piece-set-1.jpg" alt="Ankara Tie-Front Two-Piece Set" />
-        </div>
-        <div class="rtw-piece-info">
-          <div class="rtw-piece-name">Ankara Tie-Front Two-Piece Set</div>
-          <div class="rtw-piece-price" data-ngn="150000">From ₦150,000</div>
-          <a href="https://wa.me/2348060495986?text=Hello%2C%20I%27m%20interested%20in%20the%20Ankara%20Tie-Front%20Two-Piece%20Set." class="rtw-piece-cta" target="_blank" rel="noopener">Inquire</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="atelier" id="atelier">
-  <div class="atelier-inner">
-    <div class="atelier-header reveal">
-      <p class="eyebrow">The Atelier</p>
-      <h2>How a commission is made.</h2>
-    </div>
-    <div class="atelier-grid reveal">
-      <div class="atelier-track">
-        <div class="atelier-track-label">Lagos &amp; Nigeria</div>
-        <h3>Local Commission</h3>
-        <p>For clients in Lagos and across Nigeria, the process begins with a direct consultation — in person or via WhatsApp — to discuss your vision, occasion, timeline, and budget.</p>
-        <div class="atelier-steps">
-          <div class="atelier-step">
-            <span class="atelier-step-n">i.</span>
-            <div class="atelier-step-text">
-              <strong>Consultation</strong>
-              Share your vision, occasion, fabric preferences, and timeline. We'll advise on what's achievable and at what range.
-            </div>
-          </div>
-          <div class="atelier-step">
-            <span class="atelier-step-n">ii.</span>
-            <div class="atelier-step-text">
-              <strong>Measurements &amp; Fabric</strong>
-              We take your measurements and source or confirm fabric. For complex pieces, swatches are shared before cutting begins.
-            </div>
-          </div>
-          <div class="atelier-step">
-            <span class="atelier-step-n">iii.</span>
-            <div class="atelier-step-text">
-              <strong>Fitting(s)</strong>
-              One or more fittings depending on the complexity of the piece. Adjustments are made until the fit is correct.
-            </div>
-          </div>
-          <div class="atelier-step">
-            <span class="atelier-step-n">iv.</span>
-            <div class="atelier-step-text">
-              <strong>Completion</strong>
-              Your piece is finished, pressed, and ready for collection or delivery.
-            </div>
-          </div>
-        </div>
-        <a href="https://wa.me/2348060495986" class="atelier-cta" target="_blank" rel="noopener">Begin via WhatsApp</a>
-      </div>
-
-      <div class="atelier-track">
-        <div class="atelier-track-label">International &amp; Diaspora</div>
-        <h3>Remote Commission</h3>
-        <p>We work with clients across the UK, US, Europe, and beyond. The process is adapted for distance — careful, unhurried, and built around communication that keeps you close to the work even when you're far.</p>
-        <div class="atelier-steps">
-          <div class="atelier-step">
-            <span class="atelier-step-n">i.</span>
-            <div class="atelier-step-text">
-              <strong>Remote Consultation</strong>
-              Via WhatsApp or email. We discuss your garment in full — references, occasion, deadline, and budget. Pricing for international clients is confirmed in your preferred currency at this stage.
-            </div>
-          </div>
-          <div class="atelier-step">
-            <span class="atelier-step-n">ii.</span>
-            <div class="atelier-step-text">
-              <strong>Measurements Guide</strong>
-              We send you a detailed self-measurement guide. Video guidance is available if needed. Accuracy here is everything — we take time with this step.
-            </div>
-          </div>
-          <div class="atelier-step">
-            <span class="atelier-step-n">iii.</span>
-            <div class="atelier-step-text">
-              <strong>Progress Updates</strong>
-              Photos are shared at key stages — cut, assembly, before finishing — so you can follow the work and confirm details from a distance.
-            </div>
-          </div>
-          <div class="atelier-step">
-            <span class="atelier-step-n">iv.</span>
-            <div class="atelier-step-text">
-              <strong>Delivery</strong>
-              Shipped internationally, insured, with tracking. We advise on timing to ensure your piece arrives ahead of your occasion.
-            </div>
-          </div>
-        </div>
-        <a href="mailto:styleimagestun@gmail.com" class="atelier-cta">Begin via Email</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="contact" id="contact">
-  <div class="contact-inner">
-    <div class="contact-left reveal">
-      <p class="eyebrow" style="color:rgba(247,244,239,0.5)">Book a Consultation</p>
-      <h2>The atelier<br />is ready<br />for <em>you.</em></h2>
-      <p>Every conversation begins with a question: what is the occasion, and what should it feel like when you arrive? Start there. We'll take care of everything else.</p>
-    </div>
-    <div class="contact-links reveal">
-      <div class="contact-link">
-        <span class="contact-link-label">WhatsApp</span>
-        <a href="https://wa.me/2348060495986" class="contact-link-value" target="_blank" rel="noopener">+234 806 049 5986</a>
-        <span class="contact-link-sub">Chat with the Atelier — fastest response</span>
-      </div>
-      <div class="contact-link">
-        <span class="contact-link-label">Email</span>
-        <a href="mailto:styleimagestun@gmail.com" class="contact-link-value">styleimagestun@gmail.com</a>
-        <span class="contact-link-sub">Commissions, consultations &amp; inquiries</span>
-      </div>
-      <div class="contact-link">
-        <span class="contact-link-label">Location</span>
-        <span class="contact-link-value" style="cursor:default">Lagos, Nigeria</span>
-        <span class="contact-link-sub">International clients welcome — remote commissions available</span>
-      </div>
-      <a href="https://wa.me/2348060495986?text=Hello%2C%20I%27d%20like%20to%20book%20a%20consultation%20with%20PEASIS." class="wa-button" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Chat with the Atelier
-      </a>
-    </div>
+<!-- CONTACT -->
+<section class="contact">
+  <div class="section-inner reveal">
+    <p class="eyebrow" style="color: var(--stone); margin-bottom: 1rem;">Begin</p>
+    <h2>The atelier is ready.</h2>
+    <a href="https://wa.me/2348060495986" class="contact-cta" target="_blank">Consult with us</a>
   </div>
 </section>
 
 <footer>
-  <span class="footer-brand">PEASIS</span>
-  <span>Lagos Atelier — Bespoke Fashion</span>
-  <span>© 2025 PEASIS. All rights reserved.</span>
+  <span>PEASIS Lagos</span>
+  <span>© 2026. All rights reserved.</span>
 </footer>
 
-<a href="https://wa.me/2348060495986" class="float-wa" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-</a>
-
 <script>
-  // Nav scroll shadow
+  // Nav scroll logic
   const nav = document.getElementById('main-nav');
   window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-  }, { passive: true });
+    if(window.scrollY > 50) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
 
   // Mobile menu
   const toggle = document.getElementById('nav-toggle');
   const menu = document.getElementById('mobile-menu');
   toggle.addEventListener('click', () => {
-    const open = menu.classList.toggle('open');
-    toggle.classList.toggle('open', open);
-    document.body.style.overflow = open ? 'hidden' : '';
+    toggle.classList.toggle('open');
+    menu.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
   });
-  menu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      menu.classList.remove('open');
+  menu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
       toggle.classList.remove('open');
+      menu.classList.remove('open');
       document.body.style.overflow = '';
     });
   });
@@ -1412,57 +528,14 @@
   // Scroll reveal
   const revealEls = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
+    entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // Stagger children
-        setTimeout(() => entry.target.classList.add('visible'), 80);
+        entry.target.classList.add('visible');
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.15 });
   revealEls.forEach(el => observer.observe(el));
-
-  // Currency conversion (approximate, static rates)
-  const rates = { NGN: 1, USD: 1 / 1650, GBP: 1 / 2100 };
-  const symbols = { NGN: '₦', USD: '$', GBP: '£' };
-  const priceRanges = {
-    'price-tops':       [100000, 200000],
-    'price-dresses':    [150000, 350000],
-    'price-gowns':      [200000, 500000],
-    'price-signature':  [400000, 1000000],
-    'price-separates':  [120000, 250000],
-  };
-
-  function fmt(n, currency) {
-    const val = Math.round(n * rates[currency]);
-    if (currency === 'NGN') return symbols[currency] + val.toLocaleString('en-NG');
-    return symbols[currency] + val.toLocaleString('en-US');
-  }
-
-  function updateCurrency(currency) {
-    const note = document.getElementById('currency-note');
-    note.textContent = currency === 'NGN'
-      ? ''
-      : '— approximate conversion; final pricing confirmed at consultation';
-
-    for (const [id, [lo, hi]] of Object.entries(priceRanges)) {
-      const el = document.getElementById(id);
-      if (!el) continue;
-      if (id === 'price-signature') {
-        el.textContent = `${fmt(lo, currency)} – ${fmt(hi, currency)}+`;
-      } else {
-        el.textContent = `${fmt(lo, currency)} – ${fmt(hi, currency)}`;
-      }
-    }
-
-    // RTW prices
-    document.querySelectorAll('.rtw-piece-price[data-ngn]').forEach(el => {
-      const base = parseInt(el.dataset.ngn);
-      el.textContent = `From ${fmt(base, currency)}`;
-    });
-  }
 </script>
 </body>
 </html>
-
-```
