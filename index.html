@@ -1,660 +1,1484 @@
-<!doctype html>
-<html lang="en" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/images/peasis-favicon.png" />
-    <link rel="alternate icon" type="image/png" href="/images/peasis-favicon.png" />
-    <title>PEASIS — Haute Couture Maison Lagos</title>
-    <!-- Tailwind index compilation style -->
-    <link rel="stylesheet" href="/src/index.css" />
-    <!-- Dynamic Lucide Icons Loader -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-  </head>
-  <body class="bg-[#F8F5F0] text-[#1A1A1A] font-sans overflow-x-hidden antialiased">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PEASIS — Lagos Atelier</title>
+  <link rel="icon" href="peasis-favicon.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Tokens ─────────────────────────────────────────── */
+    :root {
+      --ivory:   #F7F4EF;
+      --ink:     #1A1A18;
+      --stone:   #8B8B88;
+      --gold:    #9D7B4B;
+      --emerald: #2D5A3D;
+      --serif:   'Cormorant Garamond', Georgia, serif;
+      --sans:    'Jost', system-ui, sans-serif;
+    }
 
-    <!-- Universal Sticky Luxury Header -->
-    <header class="sticky top-0 z-50 bg-[#F8F5F0]/95 backdrop-blur-md border-b border-[#B89B5E]/10 select-none">
-      <div class="max-w-7xl mx-auto px-6 md:px-12 py-5 flex items-center justify-between">
-        
-        <!-- Left Side: Brand Logo -->
-        <div class="flex items-center space-x-3 cursor-pointer btn-home-logo">
-          <!-- Stylized High-Fashion Atelier Emblem -->
-          <div class="w-10 h-10 border border-[#B89B5E] flex items-center justify-center relative group overflow-hidden">
-            <span class="font-serif-editorial text-sm tracking-widest text-[#B89B5E] font-medium transition-transform duration-500 group-hover:scale-110">P</span>
-            <div class="absolute -inset-0.5 border border-[#B89B5E]/20 scale-90 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-          </div>
-          <div class="flex flex-col text-left">
-            <span class="font-serif-editorial text-lg tracking-[0.3em] font-medium leading-none text-gray-900">PEASIS</span>
-            <span class="text-[7px] tracking-[0.5em] text-[#B89B5E] font-mono leading-none mt-1 uppercase">Maison Lagos</span>
-          </div>
-        </div>
+    /* ─── Reset ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
 
-        <!-- Center: Desk Nav Anchors -->
-        <nav class="hidden lg:flex items-center space-x-10 text-[10px] tracking-[0.3em] font-medium text-gray-600">
-          <button data-anchor-target="featured-collections" class="hover:text-[#B89B5E] transition-colors uppercase">Collections</button>
-          <button data-anchor-target="ready-to-wear" class="hover:text-[#B89B5E] transition-colors uppercase">Ready To Wear</button>
-          <button data-anchor-target="custom-couture" class="hover:text-[#B89B5E] transition-colors uppercase">Custom Couture</button>
-          <button data-anchor-target="contact-salon" class="hover:text-[#B89B5E] transition-colors uppercase">Atelier Salon</button>
-        </nav>
+    /* ─── Utility ────────────────────────────────────────── */
+    .eyebrow {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
 
-        <!-- Right Side: Currency dropdown and consultation action -->
-        <div class="flex items-center space-x-6">
-          
-          <!-- Elite Custom Currency Selector -->
-          <div class="relative items-center space-x-1 text-xs border border-gray-300 px-3 py-1.5 bg-white shadow-sm flex select-none">
-            <i data-lucide="globe" class="w-3.5 h-3.5 text-[#B89B5E]"></i>
-            <select id="currency-select" class="bg-transparent focus:outline-none text-[10px] tracking-wider font-semibold text-gray-700 cursor-pointer uppercase pr-2">
-              <option value="NGN">NGN (₦)</option>
-              <option value="USD">USD ($)</option>
-              <option value="GBP">GBP (£)</option>
-            </select>
-          </div>
+    /* ─── Navigation ─────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 3rem;
+      background: var(--ivory);
+      border-bottom: 1px solid rgba(26,26,24,0.08);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 1px 24px rgba(26,26,24,0.06); }
 
-          <!-- Primary Booking Call-to-Action -->
-          <button id="btn-book-consult-header" class="hidden sm:inline-block bg-[#0F0F0F] hover:bg-[#B89B5E] text-white hover:text-white text-[10px] tracking-[0.25em] py-3 px-6 transition-all duration-300 font-semibold uppercase">
-            Private Booking
-          </button>
+    .nav-logo img {
+      height: 36px;
+      width: auto;
+    }
+    /* Fallback if logo image not present */
+    .nav-logo-text {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      display: none;
+    }
+    .nav-logo img:not([src]), .nav-logo img[src=""] { display: none; }
+    .nav-logo img:not([src]) ~ .nav-logo-text,
+    .nav-logo img[src=""] ~ .nav-logo-text { display: block; }
 
-          <!-- Mobile Hambuger Button toggle -->
-          <button id="btn-mobile-menu-open" class="lg:hidden text-gray-800 hover:text-[#B89B5E] focus:outline-none" aria-label="Toggle Navigation">
-            <i data-lucide="menu" class="w-6 h-6"></i>
-          </button>
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--stone);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
 
-        </div>
+    .nav-wa {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--emerald);
+      border: 1px solid var(--emerald);
+      padding: 0.5rem 1rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-wa:hover { background: var(--emerald); color: var(--ivory); }
 
-      </div>
-    </header>
+    /* Hamburger */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--ink);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-    <!-- Mobile Navigation Drawer overlay -->
-    <div id="mobile-menu" class="fixed inset-0 bg-[#0F0F0F] z-50 flex flex-col justify-between p-8 text-[#F8F5F0] hidden select-none">
-      
-      <!-- Top header line inside overlay -->
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-3 btn-home-logo">
-          <div class="w-10 h-10 border border-[#B89B5E] flex items-center justify-center">
-            <span class="font-serif-editorial text-sm tracking-widest text-[#B89B5E] font-medium">P</span>
-          </div>
-          <div class="flex flex-col text-left">
-            <span class="font-serif-editorial text-lg tracking-[0.3em] font-medium leading-none text-white">PEASIS</span>
-            <span class="text-[7px] tracking-[0.5em] text-[#B89B5E] font-mono leading-none mt-1 uppercase">Maison Lagos</span>
-          </div>
-        </div>
-        <button id="btn-mobile-menu-close" class="text-gray-400 hover:text-white focus:outline-none">
-          <i data-lucide="x" class="w-6 h-6"></i>
-        </button>
-      </div>
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--ivory);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+    }
+    .mobile-menu .mobile-wa {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--emerald);
+      border: 1px solid var(--emerald);
+      padding: 0.7rem 1.4rem;
+      margin-top: 1rem;
+    }
 
-      <!-- Center Links blocks -->
-      <nav class="flex flex-col space-y-8 text-center text-lg tracking-[0.3em] uppercase font-serif-editorial py-12">
-        <button data-anchor-target="featured-collections" class="hover:text-[#B89B5E] transition-colors">Collections</button>
-        <button data-anchor-target="ready-to-wear" class="hover:text-[#B89B5E] transition-colors">Ready To Wear</button>
-        <button data-anchor-target="custom-couture" class="hover:text-[#B89B5E] transition-colors">Custom Couture</button>
-        <button data-anchor-target="contact-salon" class="hover:text-[#B89B5E] transition-colors">Atelier Salon</button>
-        <button id="btn-book-consult-mobile" onclick="window.location.hash='#/consultation'; document.getElementById('mobile-menu').classList.add('hidden');" class="outline-none text-sm text-[#B89B5E] font-sans font-semibold tracking-widest uppercase mt-4">Private Booking</button>
-      </nav>
+    /* ─── Hero ───────────────────────────────────────────── */
+    .hero {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 72px;
+    }
+    .hero-image {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-image img {
+      height: 100%;
+      object-fit: cover;
+    }
+    /* Placeholder when no image */
+    .hero-image-placeholder {
+      height: 100%;
+      min-height: 70vh;
+      background: linear-gradient(160deg, #e8e3d8 0%, #d4cfc4 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 2rem;
+    }
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 4rem 4rem 5rem 4rem;
+    }
+    .hero-content .eyebrow { margin-bottom: 2rem; }
+    .hero-headline {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 2.5rem;
+    }
+    .hero-headline em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-sub {
+      font-size: 14px;
+      color: var(--stone);
+      max-width: 28ch;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .hero-cta::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--ink);
+      transition: width 0.3s;
+    }
+    .hero-cta:hover::after { width: 60px; }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      writing-mode: vertical-lr;
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--stone);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .hero-scroll::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 40px;
+      background: var(--stone);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(0.6); }
+    }
 
-      <!-- Bottom meta container inside overlay -->
-      <div class="border-t border-white/5 pt-8 flex flex-col space-y-6">
-        <!-- Currency dropdown for mobile -->
-        <div class="flex items-center justify-center space-x-2 text-xs border border-white/10 px-4 py-2.5 bg-white/5 uppercase">
-          <i data-lucide="globe" class="w-3.5 h-3.5 text-[#B89B5E]"></i>
-          <span class="text-gray-400">Currency:</span>
-          <select id="currency-select-mobile" class="bg-transparent focus:outline-none font-semibold text-white cursor-pointer uppercase">
-            <option class="text-black" value="NGN">NGN (₦)</option>
-            <option class="text-black" value="USD">USD ($)</option>
-            <option class="text-black" value="GBP">GBP (£)</option>
-          </select>
-        </div>
+    /* ─── Section base ───────────────────────────────────── */
+    section { padding: 7rem 3rem; }
+    .section-inner { max-width: 1280px; margin: 0 auto; }
 
-        <p class="text-[9px] tracking-widest font-mono text-gray-500 uppercase text-center flex items-center justify-center space-x-1.5">
-          <span>Mon — Sat</span>
-          <span>•</span>
-          <span>By Appointment Only</span>
-        </p>
-      </div>
+    /* ─── Maison ─────────────────────────────────────────── */
+    .maison {
+      background: var(--ink);
+      color: var(--ivory);
+    }
+    .maison-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .maison-label { color: var(--stone); }
+    .maison-year {
+      font-family: var(--serif);
+      font-size: clamp(5rem, 10vw, 9rem);
+      font-weight: 300;
+      line-height: 1;
+      color: rgba(247,244,239,0.08);
+      letter-spacing: -0.02em;
+      margin-top: 1rem;
+    }
+    .maison-text h2 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.25;
+      margin-bottom: 2rem;
+    }
+    .maison-text h2 em { font-style: italic; color: var(--gold); }
+    .maison-text p {
+      color: rgba(247,244,239,0.65);
+      font-size: 15px;
+      line-height: 1.9;
+      max-width: 52ch;
+    }
+    .maison-text p + p { margin-top: 1.2rem; }
+    .maison-rule {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin: 2rem 0;
+    }
 
+    /* ─── The Meaning (PEASIS reveal) ───────────────────── */
+    .meaning {
+      padding: 8rem 3rem;
+    }
+    .meaning-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .meaning-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 5rem;
+    }
+    .meaning-title {
+      font-family: var(--serif);
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      font-weight: 300;
+      line-height: 1.3;
+      max-width: 28ch;
+    }
+    .meaning-intro {
+      font-size: 14px;
+      color: var(--stone);
+      max-width: 36ch;
+      line-height: 1.9;
+      padding-top: 0.4rem;
+    }
+
+    /* The split reveal */
+    .meaning-split {
+      display: grid;
+      grid-template-columns: 1fr 80px 1fr;
+      gap: 0;
+      align-items: stretch;
+      border-top: 1px solid rgba(26,26,24,0.1);
+    }
+    .meaning-half {
+      padding: 4rem 3rem;
+    }
+    .meaning-half:first-child { border-right: 1px solid rgba(26,26,24,0.1); }
+    .meaning-divider {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0;
+    }
+    .meaning-feather {
+      flex: 1;
+    }
+    .meaning-letters {
+      font-family: var(--serif);
+      font-size: clamp(4rem, 8vw, 7rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: 0.1em;
+      color: rgba(26,26,24,0.08);
+      margin-bottom: 0.5rem;
+    }
+    .meaning-letters span {
+      color: var(--ink);
+      position: relative;
+    }
+    .meaning-word {
+      font-family: var(--serif);
+      font-size: clamp(1.3rem, 2.5vw, 2rem);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      margin: 0.5rem 0 0.3rem;
+    }
+    .meaning-def {
+      font-size: 13px;
+      color: var(--stone);
+      line-height: 1.8;
+      max-width: 32ch;
+    }
+    .meaning-tag {
+      display: inline-block;
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(157,123,75,0.4);
+      padding: 0.2em 0.6em;
+      margin-bottom: 1.2rem;
+    }
+    .meaning-tagline {
+      margin-top: 5rem;
+      text-align: center;
+      padding: 4rem 2rem;
+      border-top: 1px solid rgba(26,26,24,0.1);
+    }
+    .meaning-tagline h3 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .meaning-tagline h3 em {
+      font-style: normal;
+      color: var(--emerald);
+    }
+
+    /* ─── Collections ────────────────────────────────────── */
+    .collections { padding: 7rem 3rem; }
+    .collections-header {
+      max-width: 1280px;
+      margin: 0 auto 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .collections-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.15;
+    }
+    .collections-note {
+      font-size: 13px;
+      color: var(--stone);
+      max-width: 26ch;
+      text-align: right;
+      line-height: 1.7;
+    }
+
+    /* Currency toggle */
+    .currency-toggle {
+      max-width: 1280px;
+      margin: 0 auto 3.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .currency-toggle label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+    .currency-select {
+      appearance: none;
+      background: transparent;
+      border: 1px solid rgba(26,26,24,0.2);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      padding: 0.4rem 1.8rem 0.4rem 0.8rem;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238B8B88'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.6rem center;
+    }
+    .currency-note {
+      font-size: 11px;
+      color: var(--stone);
+      font-style: italic;
+    }
+
+    /* Category sections */
+    .cat-section {
+      max-width: 1280px;
+      margin: 0 auto 6rem;
+    }
+    .cat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-top: 1px solid rgba(26,26,24,0.15);
+      padding-top: 1.2rem;
+      margin-bottom: 2.5rem;
+    }
+    .cat-name {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+    }
+    .cat-range {
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      color: var(--stone);
+    }
+    .cat-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+    .cat-grid.grid-2 { grid-template-columns: 1.2fr 1fr; }
+    .cat-grid.grid-3 { grid-template-columns: 1fr 1.4fr 1fr; }
+    .cat-grid.grid-1 { grid-template-columns: 1fr; max-width: 600px; }
+
+    .piece {
+      position: relative;
+      overflow: hidden;
+      background: #e8e3d8;
+    }
+    .piece img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .piece:hover img { transform: scale(1.03); }
+    .piece-img-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(160deg, #e8e3d8 0%, #d4cfc4 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem;
+    }
+    .piece-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 1.5rem;
+      background: linear-gradient(transparent, rgba(26,26,24,0.55));
+      color: var(--ivory);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .piece:hover .piece-label { opacity: 1; }
+    .piece-label-name {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 400;
+    }
+    .piece-label-tag {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(247,244,239,0.7);
+      margin-top: 0.2rem;
+    }
+    .consult-band {
+      background: rgba(26,26,24,0.03);
+      border: 1px solid rgba(26,26,24,0.1);
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+    }
+    .consult-band p {
+      font-size: 13px;
+      color: var(--stone);
+      max-width: 40ch;
+    }
+    .consult-band a {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--emerald);
+      white-space: nowrap;
+      margin-left: 2rem;
+    }
+    .consult-band a:hover { text-decoration: underline; }
+
+    /* ─── RTW ────────────────────────────────────────────── */
+    .rtw {
+      background: var(--ink);
+      color: var(--ivory);
+      padding: 7rem 3rem;
+    }
+    .rtw-inner { max-width: 1280px; margin: 0 auto; }
+    .rtw-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+      margin-bottom: 4rem;
+    }
+    .rtw-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.15;
+    }
+    .rtw-header h2 em { font-style: italic; color: var(--gold); }
+    .rtw-desc {
+      font-size: 14px;
+      color: rgba(247,244,239,0.6);
+      line-height: 1.9;
+    }
+    .rtw-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .rtw-piece {
+      background: rgba(247,244,239,0.05);
+      overflow: hidden;
+    }
+    .rtw-piece-img {
+      aspect-ratio: 2/3;
+      overflow: hidden;
+      background: rgba(247,244,239,0.08);
+    }
+    .rtw-piece-img img {
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+    }
+    .rtw-piece:hover .rtw-piece-img img { transform: scale(1.04); }
+    .rtw-piece-info {
+      padding: 1.2rem 1.2rem 1.5rem;
+    }
+    .rtw-piece-name {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      margin-bottom: 0.2rem;
+    }
+    .rtw-piece-price {
+      font-size: 12px;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    .rtw-piece-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ivory);
+      opacity: 0.7;
+      transition: opacity 0.2s, gap 0.2s;
+    }
+    .rtw-piece-cta::after { content: '→'; }
+    .rtw-piece:hover .rtw-piece-cta { opacity: 1; gap: 0.8rem; }
+
+    /* ─── Atelier / Process ──────────────────────────────── */
+    .atelier { padding: 7rem 3rem; }
+    .atelier-inner { max-width: 1280px; margin: 0 auto; }
+    .atelier-header {
+      margin-bottom: 5rem;
+    }
+    .atelier-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-top: 0.8rem;
+      max-width: 20ch;
+    }
+    .atelier-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(26,26,24,0.1);
+      border: 1px solid rgba(26,26,24,0.1);
+    }
+    .atelier-track {
+      background: var(--ivory);
+      padding: 3rem;
+    }
+    .atelier-track-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .atelier-track h3 {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 1.2rem;
+    }
+    .atelier-track p {
+      font-size: 14px;
+      color: var(--stone);
+      line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+    .atelier-steps {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .atelier-step {
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+    }
+    .atelier-step-n {
+      font-family: var(--serif);
+      font-size: 0.85rem;
+      color: var(--stone);
+      min-width: 1.5rem;
+      padding-top: 0.1rem;
+    }
+    .atelier-step-text {
+      font-size: 13px;
+      color: var(--stone);
+      line-height: 1.75;
+    }
+    .atelier-step-text strong {
+      display: block;
+      color: var(--ink);
+      font-weight: 500;
+      font-size: 14px;
+      margin-bottom: 0.1rem;
+    }
+    .atelier-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-top: 2rem;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--emerald);
+      border: 1px solid var(--emerald);
+      padding: 0.7rem 1.2rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .atelier-cta:hover { background: var(--emerald); color: var(--ivory); }
+
+    /* ─── Contact ────────────────────────────────────────── */
+    .contact {
+      background: var(--emerald);
+      color: var(--ivory);
+      padding: 7rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact::before {
+      content: 'PEASIS';
+      position: absolute;
+      bottom: -2rem;
+      right: -1rem;
+      font-family: var(--serif);
+      font-size: clamp(8rem, 18vw, 16rem);
+      font-weight: 300;
+      color: rgba(247,244,239,0.06);
+      letter-spacing: 0.05em;
+      pointer-events: none;
+      user-select: none;
+    }
+    .contact-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: end;
+      position: relative;
+      z-index: 1;
+    }
+    .contact-left h2 {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+    }
+    .contact-left h2 em { font-style: italic; }
+    .contact-left p {
+      font-size: 14px;
+      color: rgba(247,244,239,0.7);
+      max-width: 36ch;
+      line-height: 1.9;
+    }
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .contact-link {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(247,244,239,0.15);
+    }
+    .contact-link:last-child { border-bottom: none; padding-bottom: 0; }
+    .contact-link-label {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(247,244,239,0.5);
+    }
+    .contact-link-value {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      color: var(--ivory);
+      transition: color 0.2s;
+    }
+    .contact-link:hover .contact-link-value { color: rgba(247,244,239,0.7); }
+    .contact-link-sub {
+      font-size: 11px;
+      color: rgba(247,244,239,0.45);
+    }
+    .wa-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-top: 2rem;
+      background: rgba(247,244,239,0.12);
+      border: 1px solid rgba(247,244,239,0.25);
+      color: var(--ivory);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.9rem 1.4rem;
+      transition: background 0.2s;
+    }
+    .wa-button:hover { background: rgba(247,244,239,0.22); }
+    .wa-button svg { width: 16px; height: 16px; }
+
+    /* ─── Footer ─────────────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      color: rgba(247,244,239,0.35);
+      padding: 2.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+    }
+    .footer-brand {
+      font-family: var(--serif);
+      font-size: 1rem;
+      color: rgba(247,244,239,0.5);
+      letter-spacing: 0.15em;
+    }
+
+    /* ─── Floating WA ────────────────────────────────────── */
+    .float-wa {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 50;
+      background: var(--emerald);
+      color: var(--ivory);
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(45,90,61,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .float-wa:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(45,90,61,0.45);
+    }
+    .float-wa svg { width: 24px; height: 24px; }
+
+    /* ─── Scroll reveal ──────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; }
+    }
+
+    /* ─── Responsive ─────────────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links, .nav-wa { display: none; }
+      .nav-toggle { display: flex; }
+
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-image { min-height: 65vw; }
+      .hero-content { padding: 2.5rem 1.5rem 3rem; }
+
+      section { padding: 4rem 1.5rem; }
+
+      .maison-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .maison-year { font-size: 6rem; }
+
+      .meaning-top { flex-direction: column; gap: 1.5rem; }
+      .meaning-split {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+      .meaning-half:first-child { border-right: none; border-bottom: 1px solid rgba(26,26,24,0.1); }
+      .meaning-divider {
+        flex-direction: row;
+        justify-content: center;
+        padding: 1.5rem 0;
+        border-top: 1px solid rgba(26,26,24,0.1);
+        border-bottom: 1px solid rgba(26,26,24,0.1);
+      }
+
+      .collections-header { flex-direction: column; gap: 1rem; }
+      .collections-header h2 { font-size: 2rem; }
+      .collections-note { text-align: left; }
+
+      .cat-grid.grid-2, .cat-grid.grid-3 { grid-template-columns: 1fr; }
+
+      .rtw-header { grid-template-columns: 1fr; gap: 1.5rem; }
+      .rtw-grid { grid-template-columns: 1fr 1fr; }
+
+      .atelier-grid { grid-template-columns: 1fr; }
+
+      .contact { padding: 4rem 1.5rem; }
+      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+    @media (max-width: 560px) {
+      .rtw-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav id="main-nav">
+  <a href="#" class="nav-logo" aria-label="PEASIS Home">
+    <img src="Peasis-logo-nav.png" alt="PEASIS" />
+    <span class="nav-logo-text">PEASIS</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#collections">Collections</a></li>
+    <li><a href="#rtw">Ready-to-Wear</a></li>
+    <li><a href="#atelier">Atelier</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="https://wa.me/2348060495986" class="nav-wa" target="_blank" rel="noopener">Chat with the Atelier</a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#collections" class="mobile-link">Collections</a>
+  <a href="#rtw" class="mobile-link">Ready-to-Wear</a>
+  <a href="#atelier" class="mobile-link">Atelier</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+  <a href="https://wa.me/2348060495986" class="mobile-wa" target="_blank" rel="noopener">Chat with the Atelier →</a>
+</div>
+
+<!-- Hero -->
+<section class="hero" aria-label="Hero">
+  <div class="hero-image">
+    <img src="images/emerald-beaded-gown.jpg" alt="Emerald Green Beaded Illusion Gown — PEASIS" onerror="this.style.display='none'" />
+    <div class="hero-image-placeholder" aria-hidden="true"></div>
+  </div>
+  <div class="hero-content">
+    <p class="eyebrow">Lagos Atelier — Est. Over Thirty Years</p>
+    <h1 class="hero-headline">
+      Thirty years<br />of hands<br />behind<br /><em>every piece.</em>
+    </h1>
+    <p class="hero-sub">Bespoke fashion from a Lagos maison that has known its craft since before it needed to explain it.</p>
+    <a href="#collections" class="hero-cta">View Collections</a>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">Scroll</div>
+</section>
+
+<!-- The Maison -->
+<section class="maison" id="maison">
+  <div class="maison-inner">
+    <div>
+      <p class="eyebrow maison-label">The Maison</p>
+      <div class="maison-year" aria-hidden="true">30+</div>
+    </div>
+    <div class="maison-text reveal">
+      <h2>Craft before <em>claim.</em><br />Work before words.</h2>
+      <div class="maison-rule"></div>
+      <p>PEASIS is a Lagos-based fashion house built on a singular conviction: that the quality of a garment speaks before any description of it can. For over three decades, the hands behind this atelier have cut, draped, and constructed — developing an eye for fit, fabric, and finish that cannot be approximated.</p>
+      <p>Every commission is handled with the patience the work demands. Bespoke is not a word we use loosely. It means your measurements, your occasion, your sensibility — built into something that will not look like anything else in the room.</p>
+      <p>We serve clients in Lagos and across the diaspora. The distance changes the process slightly. The standard does not change at all.</p>
+    </div>
+  </div>
+</section>
+
+<!-- The Meaning -->
+<section class="meaning" id="meaning">
+  <div class="meaning-inner">
+    <div class="meaning-top reveal">
+      <h2 class="meaning-title">A name that carries its intention quietly.</h2>
+      <p class="meaning-intro">Every letter of PEASIS is placed on purpose. This is what it means — and what it promises.</p>
     </div>
 
-    <!-- PRIMARY SCREEN PORTPORTS -->
+    <div class="meaning-split reveal">
+      <div class="meaning-half">
+        <div class="meaning-letters"><span>PEA</span>SIS</div>
+        <span class="meaning-tag">Peacock</span>
+        <p class="meaning-word">Poise. Color. Drama.</p>
+        <p class="meaning-def">The peacock does not announce itself. It arrives. It carries color and structure with a confidence that requires no explanation. That is the energy every PEASIS garment is built to carry — presence without effort, drama held within discipline.</p>
+      </div>
 
-    <!-- VIEW 1: HOME VIEW -->
-    <div id="home-view" class="fade-in-up">
-      
-      <!-- HERO SECTION -->
-      <section id="hero" class="relative min-h-[90vh] flex items-center justify-center bg-[#0C0C0C] text-white overflow-hidden select-none">
-        <!-- Absolute Background image with gorgeous luxury model dress drapes -->
-        <div class="absolute inset-0">
-          <img 
-            src="/images/white-lace-corset-bridal-gown-1.jpg" 
-            alt="Maison Peasis Backdrop" 
-            class="w-full h-full object-cover object-center opacity-45 transform scale-105 motion-safe:animate-[pulse_12s_infinite]"
-            referrerpolicy="no-referrer"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-black/45 to-[#0F0F0F]/80" />
-        </div>
+      <div class="meaning-divider" aria-hidden="true">
+        <!-- Feather motif SVG -->
+        <svg class="meaning-feather" viewBox="0 0 40 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="20" y1="10" x2="20" y2="190" stroke="rgba(157,123,75,0.25)" stroke-width="1"/>
+          <path d="M20 50 C20 50, 8 60, 10 75 C12 90, 20 88, 20 88" stroke="rgba(157,123,75,0.4)" stroke-width="0.8" fill="none"/>
+          <path d="M20 50 C20 50, 32 60, 30 75 C28 90, 20 88, 20 88" stroke="rgba(157,123,75,0.4)" stroke-width="0.8" fill="none"/>
+          <path d="M20 90 C20 90, 6 102, 9 118 C12 134, 20 130, 20 130" stroke="rgba(157,123,75,0.35)" stroke-width="0.8" fill="none"/>
+          <path d="M20 90 C20 90, 34 102, 31 118 C28 134, 20 130, 20 130" stroke="rgba(157,123,75,0.35)" stroke-width="0.8" fill="none"/>
+          <path d="M20 130 C20 130, 10 140, 12 152 C14 164, 20 162, 20 162" stroke="rgba(157,123,75,0.25)" stroke-width="0.8" fill="none"/>
+          <path d="M20 130 C20 130, 30 140, 28 152 C26 164, 20 162, 20 162" stroke="rgba(157,123,75,0.25)" stroke-width="0.8" fill="none"/>
+          <circle cx="20" cy="50" r="2" fill="rgba(157,123,75,0.6)"/>
+        </svg>
+      </div>
 
-        <!-- Contents overlay -->
-        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
-          <span class="text-[#B89B5E] text-[10px] tracking-[0.45em] uppercase font-mono block mb-5 leading-none">
-            Maîtres de l'Atelier
-          </span>
-
-          <h1 class="font-serif-editorial text-5xl sm:text-7xl md:text-8xl font-light tracking-[0.2em] uppercase leading-none text-white mb-8">
-            PEASIS
-          </h1>
-
-          <p class="font-serif-editorial text-lg sm:text-2xl md:text-3xl font-light italic text-[#F8F5F0]/90 tracking-widest max-w-3xl mx-auto mb-12">
-            "We style your image to make you stun."
-          </p>
-
-          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button data-anchor-target="featured-collections" class="w-full sm:w-auto bg-[#B89B5E] hover:bg-[#A3854E] text-white text-[10px] tracking-[0.3em] font-medium uppercase px-10 py-4 transition-all duration-300">
-              Browse Collections
-            </button>
-            <button onclick="window.location.hash='#/consultation';" class="w-full sm:w-auto border border-white/30 hover:border-white text-white text-[10px] tracking-[0.3em] font-medium uppercase px-10 py-4 transition-all duration-300 bg-white/5">
-              Book Consultation
-            </button>
-          </div>
-        </div>
-
-        <!-- Side indicator text -->
-        <div class="absolute bottom-10 left-10 hidden lg:flex items-center space-x-3 font-mono text-[9px] tracking-[0.2em] text-[#B89B5E]/60 uppercase">
-          <span>LAGOS, NIGERIA</span>
-          <span class="w-1.5 h-1.5 rounded-full bg-[#B89B5E]" />
-          <span>EST. ATELIER</span>
-        </div>
-
-        <div class="absolute bottom-10 right-10 hidden lg:flex items-center space-x-3 font-mono text-[9px] tracking-[0.2em] text-gray-500 uppercase">
-          <span>SCROLL TO EXPLORE</span>
-          <i data-lucide="arrow-down" class="w-3.5 h-3.5 text-[#B89B5E] animate-bounce"></i>
-        </div>
-      </section>
-
-      <!-- BRAND PHILOSOPHY SECTION -->
-      <section id="brand-philosophy" class="py-28 md:py-36 bg-[#0F0F0F] text-[#F8F5F0] relative overflow-hidden">
-        <!-- Subtle ambient background -->
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(184,155,94,0.05),transparent)] pointer-events-none" />
-        
-        <div class="relative z-10 max-w-5xl mx-auto px-6 md:px-12 text-center select-none">
-          <span class="text-[10px] tracking-[0.45em] text-[#B89B5E] block mb-6 uppercase font-sans font-medium">
-            Maison Philosophy
-          </span>
-
-          <p class="font-serif-editorial text-2xl sm:text-4xl md:text-5xl font-light leading-snug md:leading-relaxed text-[#F8F5F0] tracking-wide mb-12 italic max-w-4xl mx-auto">
-            "PEASIS combines contemporary sophistication with exceptional West African craftsmanship. Every piece is designed with structural precision in our Lagos atelier, celebrating timeless beauty and quiet luxury."
-          </p>
-
-          <!-- Three Pillars Grid -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-12 pt-12 border-t border-white/5 max-w-3xl mx-auto">
-            <div class="flex flex-col items-center">
-              <span class="text-[#B89B5E] font-mono text-[10px] mb-2 tracking-widest">01 / HISTORIC LINEAGE</span>
-              <h4 class="font-serif-editorial text-lg text-white font-normal tracking-widest uppercase">Lagos Soul</h4>
-              <p class="font-sans text-xs text-gray-500 font-light mt-2 tracking-wider leading-relaxed max-w-xs">
-                Every curve and stitch traces back to West African draping patterns, integrated with world-class modern couture geometry.
-              </p>
-            </div>
-            <div class="flex flex-col items-center">
-              <span class="text-[#B89B5E] font-mono text-[10px] mb-2 tracking-widest">02 / MEASURE BY MEASURE</span>
-              <h4 class="font-serif-editorial text-lg text-white font-normal tracking-widest uppercase">One-Of-One</h4>
-              <p class="font-sans text-xs text-gray-500 font-light mt-2 tracking-wider leading-relaxed max-w-xs">
-                Tailored meticulously to your distinct body dimensions, ensuring a faultless, secure, second-skin posture.
-              </p>
-            </div>
-            <div class="flex flex-col items-center">
-              <span class="text-[#B89B5E] font-mono text-[10px] mb-2 tracking-widest">03 / CONSCIOUS LUXURY</span>
-              <h4 class="font-serif-editorial text-lg text-white font-normal tracking-widest uppercase">Slow Fashion</h4>
-              <p class="font-sans text-xs text-gray-500 font-light mt-2 tracking-wider leading-relaxed max-w-xs">
-                Concocted intentionally with premium luxury crepes and fine silks. Finished painstakingly to endure generations.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- THE MEANING SECTION -->
-      <section id="meaning" class="py-28 md:py-36 bg-[#ECEAE3] relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-[1px] bg-black/[0.04]" />
-        
-        <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 container">
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            
-            <div class="lg:col-span-12 text-center pb-6">
-              <span class="text-[10px] tracking-[0.4em] text-[#B89B5E] block mb-4 uppercase font-sans font-medium">Inside the Emblem</span>
-              <h2 class="font-serif-editorial text-4xl sm:text-5xl md:text-6xl text-gray-900 tracking-wide leading-tight uppercase font-light">
-                Why PEASIS?
-              </h2>
-            </div>
-
-            <!-- Peacock Column -->
-            <div class="lg:col-span-6 bg-white/70 border border-[#B89B5E]/15 p-8 md:p-12 shadow-sm rounded-sm text-left">
-              <div class="flex items-center space-x-3 mb-6">
-                <div class="w-10 h-10 rounded-full bg-[#B89B5E]/5 flex items-center justify-center">
-                  <span class="font-serif-editorial text-lg text-[#B89B5E] font-bold">PEA</span>
-                </div>
-                <h3 class="font-serif-editorial text-2xl tracking-widest uppercase text-gray-900">The Majestic Peacock</h3>
-              </div>
-              <p class="font-serif-editorial text-[15px] italic text-[#B89B5E] mb-4">"We style your image to make you stun like a peacock."</p>
-              <p class="font-sans text-xs md:text-sm text-gray-600 font-light leading-relaxed tracking-wider">
-                The peacock represents ultimate natural majesty and absolute poise. Like its magnificent plumage, a PEASIS creation is designed to make an unforgettable visual entrance.
-              </p>
-            </div>
-
-            <!-- Sis Column -->
-            <div class="lg:col-span-6 bg-white/70 border border-[#B89B5E]/15 p-8 md:p-12 shadow-sm rounded-sm text-left">
-              <div class="flex items-center space-x-3 mb-6">
-                <div class="w-10 h-10 rounded-full bg-[#B89B5E]/5 flex items-center justify-center">
-                  <span class="font-serif-editorial text-lg text-[#B89B5E] font-bold">SIS</span>
-                </div>
-                <h3 class="font-serif-editorial text-2xl tracking-widest uppercase text-gray-900">The Sisterhood of Style</h3>
-              </div>
-              <p class="font-serif-editorial text-[15px] italic text-[#B89B5E] mb-4">Collaborative styling that celebrates form and sisterhood.</p>
-              <p class="font-sans text-xs md:text-sm text-gray-600 font-light leading-relaxed tracking-wider">
-                Our name celebrates the power of visual styling, individual posture, and cohesive sisterhood. We listen deeply to ensure that each commission reflects your direct beauty and inner light.
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- FEATURED COLLECTIONS SECTION -->
-      <section id="featured-collections" class="py-28 md:py-36 bg-[#F8F5F0] text-center select-none">
-        <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-          <div class="max-w-3xl mx-auto mb-16 text-center">
-            <span class="text-[10px] tracking-[0.45em] text-[#B89B5E] block mb-4 uppercase font-sans font-medium">Selected Folders</span>
-            <h2 class="font-serif-editorial text-4xl sm:text-5xl text-gray-900 tracking-widest font-light leading-tight uppercase mb-4">
-              Explore Our Collections
-            </h2>
-            <p class="font-sans text-xs sm:text-sm text-gray-500 font-light tracking-widest max-w-lg mx-auto">
-              Choose from luxury business RTW models, statement occasion wear dresses, or fully customized couture.
-            </p>
-          </div>
-
-          <!-- Collections grid (Dynamically Injected!) -->
-          <div id="featured-collections-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Loader fallback -->
-            <div class="col-span-full text-center py-12 text-sm text-gray-400 font-mono tracking-widest">LOADING COLLECTIONS...</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SIGNATURE PIECES SECTION -->
-      <section id="signature-pieces" class="py-28 md:py-36 bg-gray-50 border-t border-b border-gray-100 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-          <div class="max-w-3xl mx-auto mb-16">
-            <span class="text-[10px] tracking-[0.45em] text-[#B89B5E] block mb-4 uppercase font-sans font-medium">Signature Models</span>
-            <h2 class="font-serif-editorial text-4xl sm:text-5xl text-[#0F0F0F] tracking-widest font-light uppercase">
-              Featured Artpieces
-            </h2>
-          </div>
-
-          <!-- Featured pieces container (Dynamically Injected!) -->
-          <div id="signature-items-grid" class="space-y-16">
-            <!-- Loader fallback -->
-            <div class="text-center py-12 text-sm text-gray-400 font-mono tracking-widest">LOADING SIGNATURE PIECES...</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- READY-TO-WEAR PRESETS SECTION -->
-      <section id="ready-to-wear" class="py-28 md:py-36 bg-[#F8F5F0]">
-        <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-          
-          <div class="max-w-3xl mx-auto mb-20 text-center">
-            <span class="text-[10px] tracking-[0.45em] text-[#B89B5E] block mb-4 uppercase font-sans font-medium">Ready To Wear Presets</span>
-            <h2 class="font-serif-editorial text-4xl sm:text-5xl text-gray-900 tracking-widest font-light uppercase">
-              Everyday Elegance Curations
-            </h2>
-          </div>
-
-          <!-- RTW Products Grid (Dynamically Injected!) -->
-          <div id="rtw-items-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
-            <div class="col-span-full text-center py-12 text-sm text-gray-400 font-mono tracking-widest">LOADING GARMENTS...</div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- CUSTOM COUTURE SECTION -->
-      <section id="custom-couture" class="py-28 md:py-36 bg-[#0E0E0E] text-[#F8F5F0]">
-        <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 container">
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            
-            <div class="lg:col-span-5 text-left border-b border-white/5 lg:border-b-0 pb-12 lg:pb-0 select-none">
-              <span class="text-[#B89B5E] text-[10px] tracking-[0.4em] block mb-4 uppercase font-mono font-medium">Bespoke Excellence</span>
-              <h2 class="font-serif-editorial text-4xl md:text-6xl text-white tracking-widest leading-none mb-8 uppercase font-light">Custom Haute Couture</h2>
-              <p class="font-sans text-xs sm:text-sm text-gray-400 font-light leading-relaxed tracking-widest mb-10">
-                One-of-one masterworks drafted from the ground up. Each piece undergoes hand-drafted pattern matching, toile mockups, and slow hand-stitched detailing.
-              </p>
-              <div class="flex flex-wrap gap-x-6 gap-y-2 mt-4 text-[10px] tracking-wider uppercase font-mono text-[#B89B5E] font-medium">
-                <span id="starting-price-couture">✓ Starting from NGN 150,000</span>
-                <span>•</span>
-                <span>✓ Customized completely to Measurements</span>
-                <span>•</span>
-                <span>✓ Direct WhatsApp Consult</span>
-              </div>
-            </div>
-
-            <!-- Bridal/beading visual blocks -->
-            <div class="lg:col-span-7">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-left">
-                
-                <div class="bg-white/5 border border-white/10 p-8 md:p-10 shadow-sm transition-all hover:bg-white/[0.07] duration-300">
-                  <div class="w-12 h-12 border border-[#B89B5E]/30 flex items-center justify-center mb-6">
-                    <i data-lucide="sparkles" class="w-5 h-5 text-[#B89B5E]"></i>
-                  </div>
-                  <h3 class="font-serif-editorial text-xl tracking-widest uppercase text-white mb-3">Custom Gowns</h3>
-                  <p class="font-sans text-xs text-gray-400 font-light leading-relaxed tracking-wider mb-6">
-                    From deep beaded emerald illusions to hand-draped French lace corset silhouettes, tailored strictly for your special events.
-                  </p>
-                  <button data-nav-col="couture" class="text-[9px] font-mono tracking-widest text-[#B89B5E] hover:underline uppercase transition-all">Explore Bridal Commissions →</button>
-                </div>
-
-                <div class="bg-white/5 border border-white/10 p-8 md:p-10 shadow-sm transition-all hover:bg-white/[0.07] duration-300">
-                  <div class="w-12 h-12 border border-[#B89B5E]/30 flex items-center justify-center mb-6">
-                    <i data-lucide="calendar" class="w-5 h-5 text-[#B89B5E]"></i>
-                  </div>
-                  <h3 class="font-serif-editorial text-xl tracking-widest uppercase text-white mb-3">Atelier Consult</h3>
-                  <p class="font-sans text-xs text-gray-400 font-light leading-relaxed tracking-wider mb-6">
-                    Book a private bespoke consultation with our Lagos and diaspora fashion specialists to commence your dream fitting.
-                  </p>
-                  <button onclick="window.location.hash='#/consultation';" class="text-[9px] font-mono tracking-widest text-[#B89B5E] hover:underline uppercase transition-all">Request Salon Time →</button>
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- PEASIS IN MOTION PHOTO COLLAGE -->
-      <section id="peasis-in-motion" class="py-28 md:py-36 bg-[#ECEAE3] select-none text-center">
-        <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-          <div class="max-w-3xl mx-auto mb-16 text-center">
-            <span class="text-[10px] tracking-[0.45em] text-[#B89B5E] block mb-4 uppercase font-sans font-medium">PEASIS In Motion</span>
-            <h2 class="font-serif-editorial text-4xl sm:text-5xl text-gray-900 tracking-widest font-light uppercase">
-              Lagos Atelier Aesthetics
-            </h2>
-          </div>
-
-          <!-- Showcase Collage grid of models with referral policy -->
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            
-            <div class="aspect-[3/4] overflow-hidden bg-gray-200 shadow-sm relative group">
-              <img 
-                src="/images/Crystal Detail Office Dress (2).jpg" 
-                alt="Peasis Active Draping" 
-                class="w-full h-full object-cover transition-all duration-[1.5s] group-hover:scale-105"
-                referrerpolicy="no-referrer"
-              />
-              <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-left opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <span class="text-[8px] font-mono tracking-widest text-[#B89B5E] uppercase block">Draping Lineage</span>
-                <span class="font-serif-editorial text-sm text-white uppercase mt-1 block">Contemporary Office Dress Detail</span>
-              </div>
-            </div>
-
-            <div class="aspect-[3/4] overflow-hidden bg-gray-200 shadow-sm relative group">
-              <img 
-                src="/images/Handkerchief hem dress (3).jpg" 
-                alt="Peasis Beading Gown Details" 
-                class="w-full h-full object-cover transition-all duration-[1.5s] group-hover:scale-105"
-                referrerpolicy="no-referrer"
-              />
-              <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-left opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <span class="text-[8px] font-mono tracking-widest text-[#B89B5E] uppercase block">Chiffon Geometry</span>
-                <span class="font-serif-editorial text-sm text-white uppercase mt-1 block">Bespoke Handkerchief Panels</span>
-              </div>
-            </div>
-
-            <div class="aspect-[3/4] overflow-hidden bg-gray-200 shadow-sm relative group">
-              <img 
-                src="/images/Ankara peplum top (3).jpg" 
-                alt="Bespoke West African Ankara" 
-                class="w-full h-full object-cover transition-all duration-[1.5s] group-hover:scale-105"
-                referrerpolicy="no-referrer"
-              />
-              <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-left opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <span class="text-[8px] font-mono tracking-widest text-[#B89B5E] uppercase block">West African Soul</span>
-                <span class="font-serif-editorial text-sm text-white uppercase mt-1 block">Genuine Ankara Structure</span>
-              </div>
-            </div>
-
-            <div class="aspect-[3/4] overflow-hidden bg-gray-200 shadow-sm relative group">
-              <img 
-                src="/images/white-lace-corset-bridal-gown-3.jpg" 
-                alt="Luxury bridal silhouettes" 
-                class="w-full h-full object-cover transition-all duration-[1.5s] group-hover:scale-105"
-                referrerpolicy="no-referrer"
-              />
-              <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-left opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <span class="text-[8px] font-mono tracking-widest text-[#B89B5E] uppercase block">Lace Appliques</span>
-                <span class="font-serif-editorial text-sm text-white uppercase mt-1 block">Bridal French Corset Trials</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- TESTIMONIALS SLIDER SECTION -->
-      <section class="py-28 md:py-36 bg-[#F8F5F0] border-b border-gray-100">
-        <div class="max-w-4xl mx-auto px-6 text-center select-none">
-          <span class="text-[10px] tracking-[0.45em] text-[#B89B5E] block mb-8 uppercase font-sans font-medium">Bespoke Stories</span>
-          
-          <div class="flex flex-col space-y-12">
-            <!-- Testimonial 1 -->
-            <div class="text-center">
-              <p class="font-serif-editorial text-xl sm:text-2xl font-light italic text-gray-800 leading-relaxed max-w-2xl mx-auto mb-6">
-                "The gown fits as if it were sculpted onto my skin. I received hundreds of questions about who designed it at our event. PEASIS is Lagos haute couture at its absolute finest."
-              </p>
-              <h4 class="font-serif-editorial text-md tracking-widest font-semibold uppercase text-gray-900">Somto Okeke</h4>
-              <span class="text-[9px] font-mono text-[#B89B5E] tracking-widest uppercase mt-0.5 block">Lagos / London • Bespoke Emerald Bead Gown</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SALON DIRECT CHAT BLOCK -->
-      <section id="contact-salon" class="py-28 md:py-36 bg-[#0F0F0F] text-[#F8F5F0] relative overflow-hidden">
-        <!-- Subtle background golden glow -->
-        <div class="absolute top-1/2 right-1/4 w-96 h-96 bg-[#B89B5E]/5 rounded-full filter blur-[120px] pointer-events-none" />
-
-        <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 relative z-10 container">
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            
-            <div class="lg:col-span-6 text-left">
-              <span class="text-[10px] tracking-[0.45em] text-[#B89B5E] block mb-3 uppercase font-sans font-medium">
-                Private Salon & Booking
-              </span>
-              <h2 class="font-serif-editorial text-4xl md:text-6xl font-light text-white tracking-widest leading-none mb-8 uppercase">
-                Begin Your Commission
-              </h2>
-              <p class="font-sans text-xs sm:text-sm text-gray-400 font-light leading-relaxed tracking-widest mb-10 max-w-lg">
-                Whether you wish to order from our ready-to-wear curations or commence a bespoke one-of-one haute couture piece, our Lagos atelier and global digital service are at your disposal.
-              </p>
-
-              <!-- Prominent WhatsApp CTA -->
-              <a
-                href="https://wa.me/2348060495986?text=Hello%20Maison%20PEASIS,%20I'd%20like%20to%20inquire%20about%20your%20couture%20and%20ready-to-wear%20offerings."
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center space-x-3 bg-[#B89B5E] hover:bg-[#A3854E] hover:text-white text-white text-[11px] tracking-[0.35em] uppercase px-10 py-5 transition-all duration-300 font-medium font-sans shadow-lg shadow-[#B89B5E]/10"
-              >
-                <i data-lucide="message-square" class="w-4 h-4 fill-current"></i>
-                <span>Message on WhatsApp</span>
-              </a>
-            </div>
-
-            <!-- Contact detail segments -->
-            <div class="lg:col-span-6">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-left border-t border-b border-white/10 py-12">
-                
-                <div class="space-y-3">
-                  <span class="text-[9px] tracking-[0.3em] uppercase text-gray-500 font-sans block">Direct Chat</span>
-                  <div class="flex items-center space-x-3 text-white">
-                    <i data-lucide="message-square" class="w-4 h-4 text-[#B89B5E]"></i>
-                    <a href="https://wa.me/2348060495986" class="font-serif-editorial text-lg md:text-xl font-light tracking-wide hover:text-[#B89B5E] transition-colors">
-                      +234 806 049 5986
-                    </a>
-                  </div>
-                </div>
-
-                <div class="space-y-3">
-                  <span class="text-[9px] tracking-[0.3em] uppercase text-gray-500 font-sans block">Call Atelier</span>
-                  <div class="flex items-center space-x-3 text-white">
-                    <i data-lucide="phone" class="w-4 h-4 text-[#B89B5E]"></i>
-                    <a href="tel:+2348060495986" class="font-serif-editorial text-lg md:text-xl font-light tracking-wide hover:text-[#B89B5E] transition-colors">
-                      +234 806 049 5986
-                    </a>
-                  </div>
-                </div>
-
-                <div class="space-y-3 sm:col-span-2">
-                  <span class="text-[9px] tracking-[0.3em] uppercase text-gray-500 font-sans block">Digital Correspondence</span>
-                  <div class="flex items-center space-x-3 text-white">
-                    <i data-lucide="mail" class="w-4 h-4 text-[#B89B5E]"></i>
-                    <a href="mailto:styleimagestun@gmail.com" class="font-serif-editorial text-lg md:text-xl font-light tracking-wide hover:text-[#B89B5E] transition-colors break-all">
-                      styleimagestun@gmail.com
-                    </a>
-                  </div>
-                </div>
-
-              </div>
-
-              <div class="mt-8 flex justify-between items-center text-[10px] tracking-widest text-gray-500 font-mono">
-                <span>MONDAY — SATURDAY</span>
-                <span>BY SCHEDULING ONLY</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- INSTAGRAM PHOTO MASONRY -->
-      <section id="instagram-grid" class="py-28 md:py-36 bg-[#ECEAE3] select-none text-center">
-        <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 container">
-          <div class="max-w-3xl mx-auto mb-16 text-center">
-            <span class="text-[10px] tracking-[0.45em] text-[#B89B5E] block mb-4 uppercase font-sans font-medium">Digital Gallery</span>
-            <h2 class="font-serif-editorial text-4xl sm:text-5xl text-gray-900 tracking-widest font-light uppercase">
-              Maison Snapshots
-            </h2>
-          </div>
-
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            
-            <div class="aspect-square bg-gray-200 relative group overflow-hidden shadow-sm">
-              <img 
-                src="/images/Crystal Detail Office Dress (4).jpg" 
-                alt="Instagram look 1" 
-                class="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
-                referrerpolicy="no-referrer"
-              />
-              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                <i data-lucide="instagram" class="w-6 h-6 text-white"></i>
-              </div>
-            </div>
-
-            <div class="aspect-square bg-gray-200 relative group overflow-hidden shadow-sm">
-              <img 
-                src="/images/Contemporary Ankara Bustier Top (2).jpg" 
-                alt="Instagram look 2" 
-                class="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
-                referrerpolicy="no-referrer"
-              />
-              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                <i data-lucide="instagram" class="w-6 h-6 text-white"></i>
-              </div>
-            </div>
-
-            <div class="aspect-square bg-gray-200 relative group overflow-hidden shadow-sm">
-              <img 
-                src="/images/lavender-beaded-bow-sleeve-occasion-dress-3.jpg" 
-                alt="Instagram look 3" 
-                class="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
-                referrerpolicy="no-referrer"
-              />
-              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                <i data-lucide="instagram" class="w-6 h-6 text-white"></i>
-              </div>
-            </div>
-
-            <div class="aspect-square bg-gray-200 relative group overflow-hidden shadow-sm">
-              <img 
-                src="/images/black-fit-and-flare-midi-dress-3.jpg" 
-                alt="Instagram look 4" 
-                class="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
-                referrerpolicy="no-referrer"
-              />
-              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                <i data-lucide="instagram" class="w-6 h-6 text-white"></i>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
+      <div class="meaning-half">
+        <div class="meaning-letters">PEA<span>SIS</span></div>
+        <span class="meaning-tag">Style. Image. Stun.</span>
+        <p class="meaning-word">We style your image to make you stun.</p>
+        <p class="meaning-def">SIS is the promise: that when you leave this atelier, you carry yourself differently. The garment has done its work. Your silhouette has been considered. The occasion has been met — and quietly exceeded. And in the word PEASIS, a quieter meaning still: <em>pieces</em> — the beautiful, deliberate pieces from which this is all built.</p>
+      </div>
     </div>
 
-    <!-- VIEW 2: DYNAMIC COLLECTION CONTAINER -->
-    <section id="collection-view" class="hidden min-h-[80vh] fade-in-up"></section>
+    <div class="meaning-tagline reveal">
+      <h3>"We style your image to make you stun — <em>like a peacock.</em>"</h3>
+    </div>
+  </div>
+</section>
 
-    <!-- VIEW 3: DYNAMIC PRODUCT DETAIL CONTAINER -->
-    <section id="product-view" class="hidden min-h-[80vh] fade-in-up"></section>
+<!-- Collections -->
+<section class="collections" id="collections">
+  <div class="collections-header reveal">
+    <h2 class="reveal">The Collections</h2>
+    <p class="collections-note">Each piece is available as a bespoke commission. Pricing shown as indicative ranges. Inquiry via WhatsApp or email.</p>
+  </div>
 
-    <!-- VIEW 4: SEAMLESS PRIVATE CONSULTATION RESERVATION FORM -->
-    <section id="consultation-view" class="hidden min-h-[80vh] fade-in-up"></section>
+  <div class="currency-toggle reveal">
+    <label for="currency">View pricing in</label>
+    <select class="currency-select" id="currency" onchange="updateCurrency(this.value)">
+      <option value="NGN">₦ NGN</option>
+      <option value="USD">$ USD</option>
+      <option value="GBP">£ GBP</option>
+    </select>
+    <span class="currency-note" id="currency-note">— approximate conversion; final pricing confirmed at consultation</span>
+  </div>
 
-
-    <!-- UNIVERSAL SIGNATURE FOOTER -->
-    <footer class="bg-[#0E0E0E] text-gray-500 py-16 md:py-24 border-t border-white/5 select-none text-left">
-      <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-        
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-white/5">
-          
-          <div class="md:col-span-6 space-y-4">
-            <div class="flex items-center space-x-3 cursor-pointer btn-home-logo">
-              <div class="w-10 h-10 border border-[#B89B5E]/30 flex items-center justify-center">
-                <span class="font-serif-editorial text-sm tracking-widest text-[#B89B5E] font-medium">P</span>
-              </div>
-              <span class="font-serif-editorial text-xl tracking-[0.3em] font-medium text-white uppercase">PEASIS</span>
-            </div>
-            <p class="font-sans text-xs text-gray-400 font-light leading-relaxed tracking-wider max-w-sm mt-3">
-              Maison PEASIS is a quiet-luxury West African fashion house specializing in modern everyday Ready-to-Wear and custom-beaded bridal ensembles. High craft, measure by measure.
-            </p>
-          </div>
-
-          <div class="md:col-span-3 space-y-4">
-            <h4 class="font-mono text-[9px] tracking-widest text-[#B89B5E] uppercase font-semibold">Atelier Locations</h4>
-            <p class="font-sans text-xs text-gray-400 font-light leading-relaxed tracking-wider">
-              Lagos Main Salon<br />
-              Lekki Phase 1, Lagos, Nigeria<br />
-              <span class="text-gray-600 mt-2 block">Available internationally for digital fittings</span>
-            </p>
-          </div>
-
-          <div class="md:col-span-3 space-y-4">
-            <h4 class="font-mono text-[9px] tracking-widest text-[#B89B5E] uppercase font-semibold">Correspondences</h4>
-            <p class="font-sans text-xs text-gray-400 font-light leading-relaxed tracking-wider">
-              <a href="mailto:styleimagestun@gmail.com" class="hover:text-white transition-colors">styleimagestun@gmail.com</a><br />
-              <a href="https://wa.me/2348060495986" class="hover:text-white transition-colors">+234 806 049 5986</a>
-            </p>
-          </div>
-
+  <!-- Tops & Two-Piece Sets -->
+  <div class="cat-section reveal">
+    <div class="cat-header">
+      <h3 class="cat-name">Tops &amp; Two-Piece Sets</h3>
+      <span class="cat-range" id="price-tops">₦100,000 – ₦200,000</span>
+    </div>
+    <div class="cat-grid grid-3">
+      <div class="piece">
+        <div class="piece-img-placeholder">
+          <img src="images/ankara-peplum-top.jpg" alt="Ankara Peplum Top" onerror="this.parentNode.style.minHeight='380px'" />
         </div>
-
-        <div class="pt-8 flex flex-col sm:flex-row justify-between items-center text-[10px] tracking-widest font-mono text-gray-600 uppercase gap-4 text-center">
-          <span>&copy; 2026 PEASIS Maison. All rights reserved.</span>
-          <span>Designed with slow luxury in Lagos.</span>
+        <div class="piece-label">
+          <div class="piece-label-name">Ankara Peplum Top</div>
+          <div class="piece-label-tag">Bespoke Commission</div>
         </div>
-
       </div>
-    </footer>
+      <div class="piece">
+        <div class="piece-img-placeholder" style="min-height:440px">
+          <img src="images/contemporary-ankara-bustier.jpg" alt="Contemporary Ankara Bustier Top" onerror="this.parentNode.style.minHeight='440px'" />
+        </div>
+        <div class="piece-label">
+          <div class="piece-label-name">Contemporary Ankara Bustier</div>
+          <div class="piece-label-tag">Bespoke Commission</div>
+        </div>
+      </div>
+      <div class="piece">
+        <div class="piece-img-placeholder">
+          <img src="images/ankara-tie-front-set.jpg" alt="Ankara Tie-Front Two-Piece Set" onerror="this.parentNode.style.minHeight='380px'" />
+        </div>
+        <div class="piece-label">
+          <div class="piece-label-name">Ankara Tie-Front Two-Piece Set</div>
+          <div class="piece-label-tag">Bespoke Commission</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <!-- Standard ES Modules JavaScript Loader -->
-    <script type="module" src="/src/main.js"></script>
-  </body>
+  <!-- Dresses & Midi -->
+  <div class="cat-section reveal">
+    <div class="cat-header">
+      <h3 class="cat-name">Dresses</h3>
+      <span class="cat-range" id="price-dresses">₦150,000 – ₦350,000</span>
+    </div>
+    <div class="cat-grid grid-2">
+      <div class="piece">
+        <div class="piece-img-placeholder" style="min-height:480px">
+          <img src="images/crystal-office-dress.jpg" alt="Crystal Detail Office Dress" onerror="this.parentNode.style.minHeight='480px'" />
+        </div>
+        <div class="piece-label">
+          <div class="piece-label-name">Crystal Detail Office Dress</div>
+          <div class="piece-label-tag">Bespoke Commission</div>
+        </div>
+      </div>
+      <div class="piece">
+        <div class="piece-img-placeholder" style="min-height:480px">
+          <img src="images/handkerchief-hem-dress.jpg" alt="Handkerchief Hem Dress" onerror="this.parentNode.style.minHeight='480px'" />
+        </div>
+        <div class="piece-label">
+          <div class="piece-label-name">Handkerchief Hem Dress</div>
+          <div class="piece-label-tag">Bespoke Commission</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gowns & Occasion -->
+  <div class="cat-section reveal">
+    <div class="cat-header">
+      <h3 class="cat-name">Gowns &amp; Occasion</h3>
+      <span class="cat-range" id="price-gowns">₦200,000 – ₦500,000</span>
+    </div>
+    <div class="cat-grid grid-3">
+      <div class="piece">
+        <div class="piece-img-placeholder" style="min-height:520px">
+          <img src="images/black-fit-flare-midi.jpg" alt="Black Fit-and-Flare Midi Dress" onerror="this.parentNode.style.minHeight='520px'" />
+        </div>
+        <div class="piece-label">
+          <div class="piece-label-name">Black Fit-and-Flare Midi</div>
+          <div class="piece-label-tag">Bespoke Commission</div>
+        </div>
+      </div>
+      <div class="piece">
+        <div class="piece-img-placeholder" style="min-height:600px">
+          <img src="images/black-off-shoulder-ruffle-maxi.jpg" alt="Black Off-Shoulder Ruffle Maxi Dress" onerror="this.parentNode.style.minHeight='600px'" />
+        </div>
+        <div class="piece-label">
+          <div class="piece-label-name">Black Off-Shoulder Ruffle Maxi</div>
+          <div class="piece-label-tag">Bespoke Commission</div>
+        </div>
+      </div>
+      <div class="piece">
+        <div class="piece-img-placeholder" style="min-height:520px">
+          <img src="images/burgundy-blouse-floral-skirt.jpg" alt="Burgundy Blouse & Floral Maxi Skirt Set" onerror="this.parentNode.style.minHeight='520px'" />
+        </div>
+        <div class="piece-label">
+          <div class="piece-label-name">Burgundy Blouse &amp; Floral Maxi Skirt</div>
+          <div class="piece-label-tag">Bespoke Commission</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Signature / Beaded -->
+  <div class="cat-section reveal">
+    <div class="cat-header">
+      <h3 class="cat-name">Signature &amp; Beaded Pieces</h3>
+      <span class="cat-range" id="price-signature">₦400,000 – ₦1,000,000+</span>
+    </div>
+    <div class="cat-grid grid-2">
+      <div class="piece">
+        <div class="piece-img-placeholder" style="min-height:600px">
+          <img src="images/emerald-beaded-gown.jpg" alt="Emerald Green Beaded Illusion Gown" onerror="this.parentNode.style.minHeight='600px'" />
+        </div>
+        <div class="piece-label">
+          <div class="piece-label-name">Emerald Green Beaded Illusion Gown</div>
+          <div class="piece-label-tag">Signature Bespoke</div>
+        </div>
+      </div>
+      <div class="piece">
+        <div class="piece-img-placeholder" style="min-height:600px">
+          <img src="images/lavender-beaded-bow-sleeve.jpg" alt="Lavender Beaded Bow-Sleeve Occasion Dress" onerror="this.parentNode.style.minHeight='600px'" />
+        </div>
+        <div class="piece-label">
+          <div class="piece-label-name">Lavender Beaded Bow-Sleeve Gown</div>
+          <div class="piece-label-tag">Signature Bespoke</div>
+        </div>
+      </div>
+    </div>
+    <div class="consult-band reveal">
+      <p>Fully custom pieces — fabric and detail dependent. Beadwork, rare fabrics, and elaborate styles are developed in direct consultation with the atelier.</p>
+      <a href="https://wa.me/2348060495986" target="_blank" rel="noopener">Book a Consultation →</a>
+    </div>
+  </div>
+
+  <!-- Bridal -->
+  <div class="cat-section reveal">
+    <div class="cat-header">
+      <h3 class="cat-name">Bridal</h3>
+      <span class="cat-range">By consultation</span>
+    </div>
+    <div class="cat-grid grid-1">
+      <div class="piece">
+        <div class="piece-img-placeholder" style="min-height:600px">
+          <img src="images/white-lace-corset-bridal.jpg" alt="White Lace Corset Bridal Gown" onerror="this.parentNode.style.minHeight='600px'" />
+        </div>
+        <div class="piece-label">
+          <div class="piece-label-name">White Lace Corset Bridal Gown</div>
+          <div class="piece-label-tag">Bespoke Bridal</div>
+        </div>
+      </div>
+    </div>
+    <div class="consult-band reveal">
+      <p>Bridal work is entirely bespoke. Every gown begins with a consultation, proceeds through detailed fittings, and is finished to the day.</p>
+      <a href="mailto:styleimagestun@gmail.com">Begin Your Bridal Inquiry →</a>
+    </div>
+  </div>
+
+  <!-- Wide-Leg Pants (Other) -->
+  <div class="cat-section reveal">
+    <div class="cat-header">
+      <h3 class="cat-name">Coordinates &amp; Separates</h3>
+      <span class="cat-range" id="price-separates">₦120,000 – ₦250,000</span>
+    </div>
+    <div class="cat-grid grid-2">
+      <div class="piece">
+        <div class="piece-img-placeholder" style="min-height:420px">
+          <img src="images/printed-wide-leg-pants.jpg" alt="Printed Wide-Leg Pants" onerror="this.parentNode.style.minHeight='420px'" />
+        </div>
+        <div class="piece-label">
+          <div class="piece-label-name">Printed Wide-Leg Pants</div>
+          <div class="piece-label-tag">Bespoke Commission</div>
+        </div>
+      </div>
+      <div class="piece">
+        <div class="piece-img-placeholder" style="min-height:420px">
+          <img src="images/classic-black-pencil-dress.jpg" alt="Classic Black Button Pencil Dress" onerror="this.parentNode.style.minHeight='420px'" />
+        </div>
+        <div class="piece-label">
+          <div class="piece-label-name">Classic Black Button Pencil Dress</div>
+          <div class="piece-label-tag">Bespoke Commission</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Ready-to-Wear -->
+<section class="rtw" id="rtw">
+  <div class="rtw-inner">
+    <div class="rtw-header reveal">
+      <h2>Ready-to-Wear<br /><em>Available Now</em></h2>
+      <p class="rtw-desc">A curated selection of finished pieces — each made to the same standard as our bespoke commissions, available to acquire without a wait. Inquire via WhatsApp for availability and sizing.</p>
+    </div>
+    <div class="rtw-grid">
+      <div class="rtw-piece reveal">
+        <div class="rtw-piece-img">
+          <img src="images/ankara-peplum-top.jpg" alt="Ankara Peplum Top" />
+        </div>
+        <div class="rtw-piece-info">
+          <div class="rtw-piece-name">Ankara Peplum Top</div>
+          <div class="rtw-piece-price" data-ngn="100000">From ₦100,000</div>
+          <a href="https://wa.me/2348060495986?text=Hello%2C%20I%27m%20interested%20in%20the%20Ankara%20Peplum%20Top%20from%20your%20Ready-to-Wear%20collection." class="rtw-piece-cta" target="_blank" rel="noopener">Inquire</a>
+        </div>
+      </div>
+      <div class="rtw-piece reveal">
+        <div class="rtw-piece-img">
+          <img src="images/contemporary-ankara-bustier.jpg" alt="Contemporary Ankara Bustier Top" />
+        </div>
+        <div class="rtw-piece-info">
+          <div class="rtw-piece-name">Contemporary Ankara Bustier</div>
+          <div class="rtw-piece-price" data-ngn="120000">From ₦120,000</div>
+          <a href="https://wa.me/2348060495986?text=Hello%2C%20I%27m%20interested%20in%20the%20Contemporary%20Ankara%20Bustier%20Top." class="rtw-piece-cta" target="_blank" rel="noopener">Inquire</a>
+        </div>
+      </div>
+      <div class="rtw-piece reveal">
+        <div class="rtw-piece-img">
+          <img src="images/ankara-tie-front-set.jpg" alt="Ankara Tie-Front Two-Piece Set" />
+        </div>
+        <div class="rtw-piece-info">
+          <div class="rtw-piece-name">Ankara Tie-Front Two-Piece Set</div>
+          <div class="rtw-piece-price" data-ngn="150000">From ₦150,000</div>
+          <a href="https://wa.me/2348060495986?text=Hello%2C%20I%27m%20interested%20in%20the%20Ankara%20Tie-Front%20Two-Piece%20Set." class="rtw-piece-cta" target="_blank" rel="noopener">Inquire</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Atelier / Process -->
+<section class="atelier" id="atelier">
+  <div class="atelier-inner">
+    <div class="atelier-header reveal">
+      <p class="eyebrow">The Atelier</p>
+      <h2>How a commission is made.</h2>
+    </div>
+    <div class="atelier-grid reveal">
+      <div class="atelier-track">
+        <div class="atelier-track-label">Lagos &amp; Nigeria</div>
+        <h3>Local Commission</h3>
+        <p>For clients in Lagos and across Nigeria, the process begins with a direct consultation — in person or via WhatsApp — to discuss your vision, occasion, timeline, and budget.</p>
+        <div class="atelier-steps">
+          <div class="atelier-step">
+            <span class="atelier-step-n">i.</span>
+            <div class="atelier-step-text">
+              <strong>Consultation</strong>
+              Share your vision, occasion, fabric preferences, and timeline. We'll advise on what's achievable and at what range.
+            </div>
+          </div>
+          <div class="atelier-step">
+            <span class="atelier-step-n">ii.</span>
+            <div class="atelier-step-text">
+              <strong>Measurements &amp; Fabric</strong>
+              We take your measurements and source or confirm fabric. For complex pieces, swatches are shared before cutting begins.
+            </div>
+          </div>
+          <div class="atelier-step">
+            <span class="atelier-step-n">iii.</span>
+            <div class="atelier-step-text">
+              <strong>Fitting(s)</strong>
+              One or more fittings depending on the complexity of the piece. Adjustments are made until the fit is correct.
+            </div>
+          </div>
+          <div class="atelier-step">
+            <span class="atelier-step-n">iv.</span>
+            <div class="atelier-step-text">
+              <strong>Completion</strong>
+              Your piece is finished, pressed, and ready for collection or delivery.
+            </div>
+          </div>
+        </div>
+        <a href="https://wa.me/2348060495986" class="atelier-cta" target="_blank" rel="noopener">Begin via WhatsApp</a>
+      </div>
+
+      <div class="atelier-track">
+        <div class="atelier-track-label">International &amp; Diaspora</div>
+        <h3>Remote Commission</h3>
+        <p>We work with clients across the UK, US, Europe, and beyond. The process is adapted for distance — careful, unhurried, and built around communication that keeps you close to the work even when you're far.</p>
+        <div class="atelier-steps">
+          <div class="atelier-step">
+            <span class="atelier-step-n">i.</span>
+            <div class="atelier-step-text">
+              <strong>Remote Consultation</strong>
+              Via WhatsApp or email. We discuss your garment in full — references, occasion, deadline, and budget. Pricing for international clients is confirmed in your preferred currency at this stage.
+            </div>
+          </div>
+          <div class="atelier-step">
+            <span class="atelier-step-n">ii.</span>
+            <div class="atelier-step-text">
+              <strong>Measurements Guide</strong>
+              We send you a detailed self-measurement guide. Video guidance is available if needed. Accuracy here is everything — we take time with this step.
+            </div>
+          </div>
+          <div class="atelier-step">
+            <span class="atelier-step-n">iii.</span>
+            <div class="atelier-step-text">
+              <strong>Progress Updates</strong>
+              Photos are shared at key stages — cut, assembly, before finishing — so you can follow the work and confirm details from a distance.
+            </div>
+          </div>
+          <div class="atelier-step">
+            <span class="atelier-step-n">iv.</span>
+            <div class="atelier-step-text">
+              <strong>Delivery</strong>
+              Shipped internationally, insured, with tracking. We advise on timing to ensure your piece arrives ahead of your occasion.
+            </div>
+          </div>
+        </div>
+        <a href="mailto:styleimagestun@gmail.com" class="atelier-cta">Begin via Email</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-left reveal">
+      <p class="eyebrow" style="color:rgba(247,244,239,0.5)">Book a Consultation</p>
+      <h2>The atelier<br />is ready<br />for <em>you.</em></h2>
+      <p>Every conversation begins with a question: what is the occasion, and what should it feel like when you arrive? Start there. We'll take care of everything else.</p>
+    </div>
+    <div class="contact-links reveal">
+      <div class="contact-link">
+        <span class="contact-link-label">WhatsApp</span>
+        <a href="https://wa.me/2348060495986" class="contact-link-value" target="_blank" rel="noopener">+234 806 049 5986</a>
+        <span class="contact-link-sub">Chat with the Atelier — fastest response</span>
+      </div>
+      <div class="contact-link">
+        <span class="contact-link-label">Email</span>
+        <a href="mailto:styleimagestun@gmail.com" class="contact-link-value">styleimagestun@gmail.com</a>
+        <span class="contact-link-sub">Commissions, consultations &amp; inquiries</span>
+      </div>
+      <div class="contact-link">
+        <span class="contact-link-label">Location</span>
+        <span class="contact-link-value" style="cursor:default">Lagos, Nigeria</span>
+        <span class="contact-link-sub">International clients welcome — remote commissions available</span>
+      </div>
+      <a href="https://wa.me/2348060495986?text=Hello%2C%20I%27d%20like%20to%20book%20a%20consultation%20with%20PEASIS." class="wa-button" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat with the Atelier
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <span class="footer-brand">PEASIS</span>
+  <span>Lagos Atelier — Bespoke Fashion</span>
+  <span>© 2025 PEASIS. All rights reserved.</span>
+</footer>
+
+<!-- Floating WhatsApp -->
+<a href="https://wa.me/2348060495986" class="float-wa" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  // Nav scroll shadow
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // Mobile menu
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    toggle.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  menu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      menu.classList.remove('open');
+      toggle.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        // Stagger children
+        setTimeout(() => entry.target.classList.add('visible'), 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Currency conversion (approximate, static rates)
+  const rates = { NGN: 1, USD: 1 / 1650, GBP: 1 / 2100 };
+  const symbols = { NGN: '₦', USD: '$', GBP: '£' };
+  const priceRanges = {
+    'price-tops':       [100000, 200000],
+    'price-dresses':    [150000, 350000],
+    'price-gowns':      [200000, 500000],
+    'price-signature':  [400000, 1000000],
+    'price-separates':  [120000, 250000],
+  };
+
+  function fmt(n, currency) {
+    const val = Math.round(n * rates[currency]);
+    if (currency === 'NGN') return symbols[currency] + val.toLocaleString('en-NG');
+    return symbols[currency] + val.toLocaleString('en-US');
+  }
+
+  function updateCurrency(currency) {
+    const note = document.getElementById('currency-note');
+    note.textContent = currency === 'NGN'
+      ? ''
+      : '— approximate conversion; final pricing confirmed at consultation';
+
+    for (const [id, [lo, hi]] of Object.entries(priceRanges)) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      if (id === 'price-signature') {
+        el.textContent = `${fmt(lo, currency)} – ${fmt(hi, currency)}+`;
+      } else {
+        el.textContent = `${fmt(lo, currency)} – ${fmt(hi, currency)}`;
+      }
+    }
+
+    // RTW prices
+    document.querySelectorAll('.rtw-piece-price[data-ngn]').forEach(el => {
+      const base = parseInt(el.dataset.ngn);
+      el.textContent = `From ${fmt(base, currency)}`;
+    });
+  }
+</script>
+</body>
 </html>
